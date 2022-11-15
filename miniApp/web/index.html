@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style/normalize.css" />
+    <link rel="stylesheet" href="https://unpkg.com/simplebar@latest/dist/simplebar.css" />
+    <link rel="stylesheet" href="style/style.css" />
+
+    <script src="eel.js"></script>
+    <noscript>
+      <style>
+        /**
+            * Reinstate scrolling for non-JS clients  */
+        .simplebar-content-wrapper {
+          overflow: auto;
+        }
+      </style>
+    </noscript>
+  </head>
+  <body class="body">
+    <section class="left-menu">
+      <div class="left-menu__frame">
+        <div class="left-menu__logo logo-block">LOGO</div>
+        <div class="left-menu__nav-block nav-block">
+          <ul class="left-menu__links-ul links-ul">
+            <li class="left-menu__link">Lorem, ipsum.</li>
+            <li class="left-menu__link">Lorem, ipsum.</li>
+            <li class="left-menu__link">Lorem, ipsum.</li>
+          </ul>
+        </div>
+
+        <div class="left-menu__content-part main__scroll" id="main-scroll" data-simplebar>
+          <p class=""></p>
+        </div>
+      </div>
+    </section>
+    <section class="right-block">
+      <div class="frame right-block__frame">
+        <h1 class="right-block__title main-title">Lorem ipsum dolor sit amet.</h1>
+      </div>
+      <section class="right-block__input-section input-block second-section">
+        <div class="frame">
+          <form
+            action="#"
+            id="form"
+            autocomplete="off"
+            class="input-block__input-form form"
+          >
+            <div class="form__input-box">
+              <p class="small-descr">длина волны излучения лазера</p>
+              <input
+                type="text"
+                class="form__input form-control"
+                placeholder="(мкм)"
+                autocomplete="off"
+                name=""
+                id="lam"
+              />
+            </div>
+            <div class="form__input-box">
+              <p class="small-descr">нижняя частота полосы</p>
+              <input
+                type="text"
+                class="form__input form-control"
+                placeholder="(кГц)"
+                autocomplete="off"
+                name=""
+                id="fBottom"
+              />
+            </div>
+            <div class="form__input-box">
+              <p class="small-descr">верхняя частота полосы</p>
+
+              <input
+                type="text"
+                class="form__input form-control"
+                placeholder="(кГц)"
+                autocomplete="off"
+                name="heightFreq"
+                id="fTop"
+              />
+            </div>
+            <div class="form__input-box">
+              <p class="small-descr">расходимость луча лазера</p>
+              <input
+                type="text"
+                class="form__input form-control"
+                placeholder="(мрад)"
+                autocomplete="off"
+                name=""
+                id="dFi"
+              />
+            </div>
+            <div class="form__input-box">
+              <p class="small-descr">поток излучения лазера</p>
+              <input
+                type="text"
+                class="form__input form-control"
+                placeholder="(Вт)"
+                autocomplete="off"
+                name=""
+                id="Fel"
+              />
+            </div>
+
+            <div class="form__input-box">
+              <p class="small-descr">поток излучения лазера (энергия)</p>
+              <input
+                type="text"
+                class="form__input form-control"
+                placeholder="(кДж)"
+                autocomplete="off"
+                name=""
+                id="Wel"
+              />
+            </div>
+            <div class="form__input-box">
+              <p class="small-descr">расстояние до лазерного источника</p>
+              <input
+                type="text"
+                class="form__input form-control"
+                placeholder="(км)"
+                autocomplete="off"
+                name=""
+                id="Rl"
+              />
+            </div>
+            <div class="form__input-box">
+              <p class="small-descr">расстояние до источника фонового излучения</p>
+              <input
+                type="text"
+                class="form__input form-control"
+                placeholder="(км)"
+                autocomplete="off"
+                name=""
+                id="Rf"
+              />
+            </div>
+            <div class="form__input-box">
+              <p class="small-descr">поток излучения фона</p>
+              <input
+                type="text"
+                class="form__input form-control"
+                placeholder="кВт"
+                autocomplete="off"
+                name=""
+                id="Fef"
+              />
+            </div>
+            <div class="form__input-box">
+              <p class="small-descr">температура фонового источника</p>
+              <input
+                type="text"
+                class="form__input form-control"
+                placeholder="K"
+                autocomplete="off"
+                name=""
+                id="Tf"
+              />
+            </div>
+            <div class="form__input-box">
+              <p class="small-descr">диаметр зрачка входного объектива</p>
+              <input
+                type="text"
+                class="form__input form-control"
+                placeholder="мм"
+                autocomplete="off"
+                name=""
+                id="D"
+              />
+            </div>
+            <div class="form__input-box">
+              <p class="small-descr">коэффициент пропускания объектива</p>
+              <input
+                type="text"
+                class="form__input form-control"
+                placeholder=""
+                autocomplete="off"
+                name=""
+                id="k"
+              />
+            </div>
+            <div class="form__input-box">
+              <p class="small-descr">всремя испускания</p>
+              <input
+                type="text"
+                class="form__input form-control"
+                placeholder="с"
+                autocomplete="off"
+                name=""
+                id="tImp"
+              />
+            </div>
+            <div class="form__input-box">
+              <p class="small-descr">Температура источника типа А</p>
+              <input
+                type="text"
+                class="form__input form-control"
+                placeholder="(K)"
+                autocomplete="off"
+                name=""
+                id="Ta"
+              />
+            </div>
+            <div class="form__input-box">
+              <p class="small-descr">полоса частот</p>
+              <input
+                type="text"
+                class="form__input form-control"
+                placeholder="(кГц)"
+                autocomplete="off"
+                name=""
+                id="df"
+              />
+            </div>
+          </form>
+          <button class="form__btn btn" id="start-calc-btn">Начать</button>
+          <div class="input-block__status-block status-block">
+            <!-- в p будет ошибка если поля заполнены не верно -->
+            <p class="status-block__status"></p>
+          </div>
+        </div>
+      </section>
+      <section class="general-parameters second-section">
+        <div class="frame">
+          <div class="general-parameters__left">
+            <div class="general-parameters__data output-data"></div>
+          </div>
+          <div class="general-parameters__right">
+            <div class="general-parameters__content">
+              <img src="" alt="" class="general-parameters__graph graph-img" />
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="choice second-section">
+        <div class="frame choice__frame">
+          <h2 class="choice__heading section-heading">Выберите 3 фотоприемника</h2>
+          <div class="choice__choice-block">
+            <ul class="choice__choice-cards-list">
+              <li class="choice__card">
+                <form action="#" id="form" autocomplete="off" class="choice__form">
+                  <div class="choice__select">
+                    <select name="select" id="select" class="choice__list">
+                      <option value="">фотоприемник</option>
+                      <!-- брать из базы все имена фотоприемников -->
+                      <option value="2">Имя</option>
+                      <option value="3">Имя</option>
+                      <option value="4">Имя</option>
+                    </select>
+                  </div>
+                  <div class="choice__parameters parameters">
+                    <!-- выводить параметры выбраного приемника -->
+                    <p class="parametrs-parametr">Lorem ipsum dolor sit.</p>
+                    <p class="parametrs-parametr">Lorem ipsum dolor sit.</p>
+                    <p class="parametrs-parametr">Lorem ipsum dolor sit.</p>
+                    <p class="parametrs-parametr">Lorem ipsum dolor sit.</p>
+                    <p class="parametrs-parametr">Lorem ipsum dolor sit.</p>
+                    <p class="parametrs-parametr">Lorem ipsum dolor sit.</p>
+                    <p class="parametrs-parametr">Lorem ipsum dolor sit.</p>
+                    <p class="parametrs-parametr">Lorem ipsum dolor sit.</p>
+                    <p class="parametrs-parametr">Lorem ipsum dolor sit.</p>
+                  </div>
+                </form>
+              </li>
+              <li class="choice__card">
+                <form action="#" id="form" autocomplete="off" class="choice__form">
+                  <div class="choice__select">
+                    <select name="select" id="select" class="choice__list">
+                      <option value="">фотоприемник</option>
+                      <!-- брать из базы все имена фотоприемников -->
+                      <option value="2">Имя</option>
+                      <option value="3">Имя</option>
+                      <option value="4">Имя</option>
+                    </select>
+                  </div>
+                  <div class="choice__parameters parameters">
+                    <!-- выводить параметры выбраного приемника -->
+                    <p class="parametrs-parametr">Lorem ipsum dolor sit.</p>
+                    <p class="parametrs-parametr">Lorem ipsum dolor sit.</p>
+                    <p class="parametrs-parametr">Lorem ipsum dolor sit.</p>
+                    <p class="parametrs-parametr">Lorem ipsum dolor sit.</p>
+                    <p class="parametrs-parametr">Lorem ipsum dolor sit.</p>
+                    <p class="parametrs-parametr">Lorem ipsum dolor sit.</p>
+                    <p class="parametrs-parametr">Lorem ipsum dolor sit.</p>
+                    <p class="parametrs-parametr">Lorem ipsum dolor sit.</p>
+                    <p class="parametrs-parametr">Lorem ipsum dolor sit.</p>
+                  </div>
+                </form>
+              </li>
+              <li class="choice__card">
+                <form action="#" id="form" autocomplete="off" class="choice__form">
+                  <div class="choice__select">
+                    <select name="select" id="select" class="choice__list">
+                      <option value="">фотоприемник</option>
+                      <!-- брать из базы все имена фотоприемников -->
+                      <option value="2">Имя</option>
+                      <option value="3">Имя</option>
+                      <option value="4">Имя</option>
+                    </select>
+                  </div>
+                  <div class="choice__parameters parameters">
+                    <!-- выводить параметры выбраного приемника -->
+                    <p class="parametrs-parametr">Lorem ipsum dolor sit.</p>
+                    <p class="parametrs-parametr">Lorem ipsum dolor sit.</p>
+                    <p class="parametrs-parametr">Lorem ipsum dolor sit.</p>
+                    <p class="parametrs-parametr">Lorem ipsum dolor sit.</p>
+                    <p class="parametrs-parametr">Lorem ipsum dolor sit.</p>
+                    <p class="parametrs-parametr">Lorem ipsum dolor sit.</p>
+                    <p class="parametrs-parametr">Lorem ipsum dolor sit.</p>
+                    <p class="parametrs-parametr">Lorem ipsum dolor sit.</p>
+                    <p class="parametrs-parametr">Lorem ipsum dolor sit.</p>
+                  </div>
+                </form>
+              </li>
+            </ul>
+            <button class="btn choice__btn">рассчитать</button>
+          </div>
+        </div>
+      </section>
+      <section class="calc second-section">
+        <div class="frame">
+          <!-- пока не понятно, но должна наверное быть похожей на секцию ввода -->
+          <!-- обязательно показывать график приемника начальный -->
+          <!-- графики после расчета и сами результаты вычислений  -->
+          <!-- желательно реализовать кнопку "получить отчет" -->
+        </div>
+      </section>
+    </section>
+
+    <footer>
+      <!-- ccылочка на гит  -->
+    </footer>
+
+    <script src="https://unpkg.com/simplebar@latest/dist/simplebar.min.js"></script>
+    <script src="scripts/script.js"></script>
+  </body>
+</html>
