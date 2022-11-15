@@ -30,5 +30,4 @@ def callFromJstoPy(x):
 
 # _________________________
 
-
-eel.start("index.html")
+eel.start("index.html", size=(1100, 600), cmdline_args=['-–disable-plugins', ' -–ash-enable-night-light', '-–start-maximized'])

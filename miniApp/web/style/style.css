@@ -171,14 +171,17 @@ li {
   color: var(--main-light-text);
 }
 .btn {
-  background-color: var(--main-accent);
   border-radius: var(--standert-rad);
   padding: 0.5rem 3.7rem;
   width: 30%;
-  color: var(--back-light-dark);
-  box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.656) inset;
+  color: var(--main-accent);
+
   overflow: hidden;
   text-align: center;
+  background: none;
+  border: 2px solid;
+  border-color: var(--main-accent);
+  line-height: 1;
 }
 .left-menu__nav-block {
   min-height: 20vh;
@@ -246,3 +249,11 @@ li {
   align-items: center;
   justify-content: center;
 }
+.form-control {
+  background-color: transparent;
+  border: none;
+  position: relative;
+  color: #fff;
+}
+
+/* background-image: linear-gradient(to right, #25aae1, #40e495, #30dd8a, #2bb673); */

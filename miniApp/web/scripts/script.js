@@ -1,3 +1,13 @@
+let inputs = document.querySelectorAll('.form__input');
+let inputBoxes = document.querySelectorAll('.form__input-box');
+for (let i = 0; i < inputs.length; ++i) {
+  inputs[i].oninput = function () {
+    inputs[i].value
+      ? inputBoxes[i].classList.add('active')
+      : inputBoxes[i].classList.remove('active');
+  };
+}
+
 let calcBtn = document.getElementById('start-calc-btn');
 calcBtn.addEventListener('click', () => {
   clearAll();

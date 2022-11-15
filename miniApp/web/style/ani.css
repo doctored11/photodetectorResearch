@@ -1,0 +1,57 @@
+*:focus {
+  outline-color: var(--main-accent);
+}
+
+.btn:hover,
+.btn:focus {
+  box-shadow: inset 0 -4em 0 0 var(--main-accent);
+  color: var(--back-light-dark);
+  transition: box-shadow cubic-bezier(1, 0.14, 0.69, 1.01) 0.4s 0.02s,
+    color cubic-bezier(0.165, 0.84, 0.44, 1) 0.25s 0.1s;
+  cursor: pointer;
+  outline: none;
+}
+
+.form__input-box::before {
+  content: '';
+  transition: top 0.2s cubic-bezier(0.9, -0.15, 0.1, 1.15), opacity 0.2s ease-out,
+    font-size 0.2s ease-out;
+  height: 2px;
+  width: 100%;
+  min-width: 20px;
+  display: inline-block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: var(--main-gray);
+  /* background-image: linear-gradient(to right, var(--main-gray), var(--main-gray)); */
+  background-image: linear-gradient(
+    to right,
+    var(--main-gray),
+    var(--main-gray),
+    var(--main-gray),
+    var(--main-accent),
+    var(--main-accent)
+  );
+  background-size: 300% 100%;
+}
+.active::before,
+.form__input-box:hover::before {
+  cursor: pointer;
+  background-position: 100% 0;
+  /* border: 2px solid red; */
+  transition: all 0.4s ease-in-out;
+}
+.form__input-box:hover {
+  cursor: text;
+}
+.form-control:focus {
+  outline: none;
+  transform: scale(105%);
+  color: var(--main-accent);
+}
+.bth:focus {
+  outline: none;
+  transform: scale(110%);
+  transition: scale 0;
+}
