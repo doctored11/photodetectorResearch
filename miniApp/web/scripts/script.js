@@ -21,10 +21,10 @@ calcBtn.addEventListener('click', () => {
 
       setToPython(arrayOfInputs);
     } else {
-      consoleLog(errorsId);
+      consoleLog(errorsId, 'error');
     }
   } else {
-    consoleLog(arrayOfInputs);
+    consoleLog(arrayOfInputs, 'error');
   }
 });
 
@@ -76,12 +76,10 @@ function checkInputsEmpty(checkArray) {
       if (checkArray[n + 1].id == 'fTop') {
         if (
           // молимся что порядок свойств не поменяется
-          (checkArray[n + 1].value == '' || checkArray[n].value == '') &&
+          checkArray[n + 1].value == '' &&
           checkArray[14].value == ''
         ) {
-          checkArray[14].value == ''
-            ? errorAr.push('df')
-            : errorAr.push('fTop', 'fBottom');
+          checkArray[14].value == '' ? errorAr.push('df') : errorAr.push('fTop');
         }
       }
       if (
@@ -101,8 +99,8 @@ function checkInputsEmpty(checkArray) {
 
   return errorAr;
 }
-
-function consoleLog(array) {
+eel.expose(consoleLog);
+function consoleLog(array, className) {
   let consoleBlock = document.querySelector('.left-menu__content-part');
 
   let simpleBarContent = document.querySelector('.simplebar-content');
@@ -110,8 +108,11 @@ function consoleLog(array) {
   for (let i = 0, n = array.length; i < n; ++i) {
     let p = document.createElement('p');
     p.classList.add('context-p');
-    p.classList.add('error');
-    p.textContent = '!ошибка значения: ' + array[i];
+    p.classList.add(className);
+    className == 'error'
+      ? (p.textContent = '!ошибка значения: ' + array[i])
+      : (p.textContent = array[i]);
+
     consoleBlock.append(p);
   }
 }

@@ -162,6 +162,14 @@ li {
   color: var(--main-light-text);
   margin-bottom: 1rem;
 }
+.left-menu__link-txt {
+  color: var(--main-light-text);
+  margin-bottom: 1rem;
+  text-decoration: none;
+}
+.content_paragraph {
+  color: var(--main-light-text);
+}
 .logo-block {
   color: var(--main-white);
   height: 10vh;

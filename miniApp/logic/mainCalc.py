@@ -5,12 +5,15 @@ import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.lines as mlines
+import scipy
 from mpmath import *
 import scipy.constants as constant
 
 from logic.calcInitial import *
 from logic.calcMath import PlankLow
-
+from logic.calcNoise import calcFeuNoise, calcRadNoise, calcDiodNoise
+from logic.calcPhoto import multiplyGraph
+from logic.calcSensative import calcSensative, calcSeacht, calcMaxSensative, SpectralSensitivityFPUToLaserRadiation
 # from mpmath import mpf, mpc, mp
 eel.init("web")
 
@@ -18,7 +21,8 @@ mp.dps = 16  # 16 или 8  - не трогать!
 
 # перевод Си
 # из
-readyAr =[]
+readyAr = []
+
 
 def calculationOfGeneralParameters():
     readyAr = [];
@@ -30,6 +34,12 @@ def calculationOfGeneralParameters():
     print(dictionary)
     readyAr.append('в СИ')
     # 1)
+    if (dictionary['fBottom'][0] == 'none' and dictionary['fTop'][0] != 'none' and dictionary['df'][0] == 'none'):
+        dictionary['df'][0] = dictionary['fTop'][0]
+        bufExcept = []
+        bufExcept.append('df = fTop (упрощение)')
+        eel.consoleLog(bufExcept, 'requer');
+
     if dictionary['fBottom'][0] == 'none' and dictionary['df'][0] == 'none':
         dictionary['df'][0] = dictionary['fTop'][0]
 
@@ -37,15 +47,16 @@ def calculationOfGeneralParameters():
         dictionary['df'][0] = dictionary['fTop'][0] - dictionary['fBottom'][0]  # \кГц
 
     print(dictionary['df'][0])
-    readyAr.append( '1) Полоса частот:' + str(dictionary['df'][0]))
+    readyAr.append('1) Полоса частот:' + str(dictionary['df'][0]))
 
     # 2)
     if dictionary['Fel'][0] == 'none':
         if dictionary['Wel'][0] == 'none' or dictionary['tImp'][0] == 'none':
             print("error step 2 - мало входных данных")
         else:
-            dictionary['Fel'][0] = dictionary['Wel'][0] / dictionary['tImp'][0]  # ! - возможна проблема в разрядах (кГц)
-    readyAr.append('2) Поток излучения: '+ str(dictionary['Fel'][0]))
+            dictionary['Fel'][0] = dictionary['Wel'][0] / dictionary['tImp'][
+                0]  # ! - возможна проблема в разрядах (кГц)
+    readyAr.append('2) Поток излучения: ' + str(dictionary['Fel'][0]))
 
     # 3)
 
@@ -64,7 +75,7 @@ def calculationOfGeneralParameters():
                     (4 * math.pi * math.pow(dictionary['Rf'][0], 2))) \
                                      * dictionary['k'][0]
 
-    readyAr.append('3) Поток фона на приемнике: '+ str(dictionary['Fefpr'][0]))
+    readyAr.append('3) Поток фона на приемнике: ' + str(dictionary['Fefpr'][0]))
 
     # 4)
 
@@ -74,18 +85,59 @@ def calculationOfGeneralParameters():
                                  (Sin * math.pow(math.tan(math.degrees(dictionary['dFi'][0])), 2)
                                   / (math.pi * math.pow(dictionary['Rl'][0], 2))) * \
                                  dictionary['k'][0]
-        readyAr.append( '4) поток от лазерного истчоника излучения на приемнике: '+ str(dictionary['Felpr'][0]))
+        readyAr.append('4) поток от лазерного истчоника излучения на приемнике: ' + str(dictionary['Felpr'][0]))
 
     # 5) - построить график где lamBuff это длина волны от 1 нм до +-2500 нм а Y  buffer = numerator/ denominator
     plt.clf()
     distributionY1, distributionX1, distributionY2, distributionX2 = [[], [], [], []]
-    PlankLow(dictionary['Tf'][0],   20400000/dictionary['Tf'][0], 20400000/dictionary['Tf'][0]* math.pow(10,-3), distributionX1, distributionY1, "-r", 'Поток Fачт')  # лучше через color="#ff"
-    PlankLow(dictionary['Ta'][0],  20400000/dictionary['Tf'][0], 20400000/dictionary['Tf'][0]* math.pow(10,-3), distributionX2, distributionY2, "--b", 'Поток Fа')
-
+    PlankLow(dictionary['Tf'][0], 20400000 / dictionary['Tf'][0], 20400000 / dictionary['Tf'][0] * math.pow(10, -3),
+             distributionX1, distributionY1, "-r", 'Поток Fачт')  # лучше через color="#ff"
+    PlankLow(dictionary['Ta'][0], 20400000 / dictionary['Tf'][0], 20400000 / dictionary['Tf'][0] * math.pow(10, -3),
+             distributionX2, distributionY2, "--b", 'Поток Fа')
     plt.xlabel('λ')
     plt.savefig('web/sourse/savedFigure.png')
     eel.getFromPython('savedFigure.png', 'graph-img')
 
+    #цифра 1 это id
+
+    def calcPhotoDetector(id):
+        kacht = multiplyGraph(id, distributionX1, distributionY1)[0]
+        ka =multiplyGraph(id, distributionX2, distributionY2)[0]
+
+        Sea = calcSensative(id)
+        Seacht = calcSeacht(kacht, ka, Sea)
+        Smax = calcMaxSensative(ka, Sea)
+        Selaz = SpectralSensitivityFPUToLaserRadiation(1,Smax)
+
+
+        # шумы для рахных типов разные --> это ФЭУ
+        # sqIdr = calcFeuNoise(id, Sea, Seacht)
+        # sqIrad = calcRadNoise(id,Seacht)
+        #для теплового шума нужна Rн
+
+        #шумы для диодов
+        # sqIdr = calcDiodNoise(id, Seacht)
+        # sqIrad = calcRadNoise(id, Seacht)
+        # для теплового шума нужна Rб
+
+        #Шумы для резисторов
+        # sqIrad = calcRadNoise(id, Seacht)
+        # и прочее 
+
+
+        # print("id",id)
+        # print("ka", ka)
+        # print("kacht", kacht)
+        # print(kacht, ka, Sea)
+        # print(Seacht, "Seacht")
+        # print(Smax, "SeMAx")
+        # print(Selaz, "Selax")
+        # print("----")
+        # print(sqIdr,"sqIdr")
+        # print("Irad", sqIrad)
+
     # plt.show()
-    readyAr.append('5-6) Построены нормированные графики спектральной плотности потока АЧТ и спектральной характеристики источника типа А')
+    readyAr.append(
+        '5-6) Построены нормированные графики спектральной плотности потока АЧТ и спектральной характеристики источника типа А')
     eel.getResultsStep1(readyAr);
+    calcPhotoDetector(0)
