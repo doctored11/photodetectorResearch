@@ -77,7 +77,7 @@ function checkInputsEmpty(checkArray) {
         if (
           // молимся что порядок свойств не поменяется
           checkArray[n + 1].value == '' &&
-          checkArray[14].value == ''
+          checkArray[14].value == '' && checkArray[12].value == ''
         ) {
           checkArray[14].value == '' ? errorAr.push('df') : errorAr.push('fTop');
         }

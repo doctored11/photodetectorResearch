@@ -8,8 +8,11 @@ from logic.calcPhoto import text
 def calcSensative(id):
     for txt in text['info']:
         if (int(txt['id']) == id and (txt['type'] == "ФЭУ")):
-            Sea = int((txt['Sva'])) * 16.6
-            print(Sea, (txt['S-units']), "!!!")  # предупреждение
+            if (txt['S-units'] == "А/лм"):
+                Sea = int((txt['Sva'])) * 16.6
+                print(Sea, (txt['S-units']), "!!!")  # предупреждение
+            else:
+                Sea = int((txt['Sva']))
             return Sea
 
 
@@ -31,12 +34,12 @@ def SpectralSensitivityFPUToLaserRadiation(id, Smax):
             arrY = json.loads(txt['arrayY'])
     print(arrX)
     print("lam")
-    print(dictionary['lam'][0]*math.pow(10,9))
+    print(dictionary['lam'][0] * math.pow(10, 9))
     for x in range(len(arrX)):
-        if x!=0:
-             if round(arrX[x-1], 0) < round(dictionary['lam'][0]*math.pow(10,9), 0)\
-                 and  round(arrX[x], 0) >= round(dictionary['lam'][0]*math.pow(10,9), 0):
-                 Slaz = arrY[x]
+        if x != 0:
+            if round(arrX[x - 1], 0) < round(dictionary['lam'][0] * math.pow(10, 9), 0) \
+                    and round(arrX[x], 0) >= round(dictionary['lam'][0] * math.pow(10, 9), 0):
+                Slaz = arrY[x]
         # print("=")
         # print(round(arrX[x], 0), round(dictionary['lam'][0]*math.pow(10,9), 0) )
 
@@ -44,4 +47,3 @@ def SpectralSensitivityFPUToLaserRadiation(id, Smax):
     S = Smax * Slaz
     print('S', S)
     return S
-

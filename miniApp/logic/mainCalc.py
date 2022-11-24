@@ -11,7 +11,7 @@ import scipy.constants as constant
 
 from logic.calcInitial import *
 from logic.calcMath import PlankLow
-from logic.calcNoise import calcFeuNoise, calcRadNoise, calcDiodNoise
+from logic.calcNoise import calcFeuNoise, calcRadNoise, calcDiodNoise, calcTemNoise
 from logic.calcPhoto import multiplyGraph
 from logic.calcSensative import calcSensative, calcSeacht, calcMaxSensative, SpectralSensitivityFPUToLaserRadiation
 # from mpmath import mpf, mpc, mp
@@ -39,6 +39,11 @@ def calculationOfGeneralParameters():
         bufExcept = []
         bufExcept.append('df = fTop (упрощение)')
         eel.consoleLog(bufExcept, 'requer');
+    if dictionary['fBottom'][0] == 'none' and dictionary['fTop'][0] == 'none' and dictionary['df'][0] == 'none':
+        if dictionary['tImp'][0] == 'none':
+            readyAr.append("мало входных данных f ")
+        else:
+            dictionary['fTop'][0] = 1/dictionary['tImp'][0]
 
     if dictionary['fBottom'][0] == 'none' and dictionary['df'][0] == 'none':
         dictionary['df'][0] = dictionary['fTop'][0]
@@ -111,14 +116,15 @@ def calculationOfGeneralParameters():
 
 
         # шумы для рахных типов разные --> это ФЭУ
-        # sqIdr = calcFeuNoise(id, Sea, Seacht)
-        # sqIrad = calcRadNoise(id,Seacht)
+        sqIdr = calcFeuNoise(id, Sea, Seacht)[0]
+        sqIrad = calcRadNoise(id,Seacht)
+        sqITem =  calcTemNoise(id, calcFeuNoise(id, Sea, Seacht)[1])
         #для теплового шума нужна Rн
 
         #шумы для диодов
         # sqIdr = calcDiodNoise(id, Seacht)
         # sqIrad = calcRadNoise(id, Seacht)
-        # для теплового шума нужна Rб
+        # для теплового шума нужна Rб - брать 1кОм
 
         #Шумы для резисторов
         # sqIrad = calcRadNoise(id, Seacht)
@@ -135,6 +141,7 @@ def calculationOfGeneralParameters():
         # print("----")
         # print(sqIdr,"sqIdr")
         # print("Irad", sqIrad)
+        print("sqITem", sqITem)
 
     # plt.show()
     readyAr.append(

@@ -24,7 +24,7 @@ def calcFeuNoise(id, Sa, Sacht):
             print(M, Sa, Svfk)
 
             print(sqIdr, "!!!sqIdr")
-            return sqIdr
+            return [sqIdr, M]
 
 
 def convert(txt, index):
@@ -45,14 +45,34 @@ def calcRadNoise(id, Sacht):
         dictionary['df'][0])
     return Irad
 
-#проверить
+
+# проверить
 def calcDiodNoise(id, Sacht):
     for txt in text['info']:
         if (int(txt['id']) == id and (txt['type'] == "ФЭУ")):
             It = convert(txt, 'It')
             Svfk = convert(txt, 'Svfk')
             Iout = float(It) * Sacht * float(dictionary['Fefpr'][0])
-            sqIdr = 2 * constant.e * float(Iout)  * float(dictionary['df'][0])
+            sqIdr = 2 * constant.e * float(Iout) * float(dictionary['df'][0])
 
             print(sqIdr, "!!!sqIdr")
             return sqIdr
+
+
+def calcTemNoise(id, M):
+    for txt in text['info']:
+        if (int(txt['id']) == id):
+            print("Cn = 20пФ")
+            print("(B+1 =2.5)")
+            It = convert(txt, 'It')
+            RnTop = 1 / (2 * constant.pi * 20 * math.pow(10, -12) * dictionary["fTop"][0])
+            RnBottom = 0.005 / (It * M * 2.5)
+            print("Rn", RnTop, RnBottom)
+            if ((0.8 * RnTop) > RnBottom):
+                print("принебрегаем Rn")  # предупреждение
+                sqITem = 4 * constant.k * float(
+                    dictionary['df'][0]) * dictionary['Tf'][0] #!подставил Тф, в методичке просто Т
+            else:
+                sqITem = (4 * constant.k * float(
+                    dictionary['df'][0]) * dictionary['Tf'][0]  ) / RnBottom #!подставил Тф, в методичке просто Т
+        return sqITem
