@@ -3,6 +3,7 @@ from mpmath import mpf
 # from numpy.distutils.fcompiler import none
 
 from logic.calcInitial import dictionary
+from logic.calcPhoto import text
 from logic.unifier import mathStart
 
 eel.init("web")
@@ -14,6 +15,9 @@ eel.init("web")
 # eel.getFromPython(z)
 jsInputArray = []
 
+@eel.expose
+def callJson():
+    eel.getJson(text)
 
 @eel.expose
 def callFromJstoPy(x):

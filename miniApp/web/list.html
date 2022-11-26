@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style/normalize.css" />
+    <link rel="stylesheet" href="https://unpkg.com/simplebar@latest/dist/simplebar.css" />
+    <link rel="stylesheet" href="style/style.css" />
+    <link rel="stylesheet" href="style/ani.css" />
+    <link rel="stylesheet" href="style/media.css" />
+
+    <script src="eel.js"></script>
+    <noscript>
+      <style>
+        /**
+            * Reinstate scrolling for non-JS clients  */
+        .simplebar-content-wrapper {
+          overflow: auto;
+        }
+      </style>
+    </noscript>
+  </head>
+  <body class="body">
+    <section class="left-menu">
+      <div class="left-menu__frame">
+        <div class="left-menu__logo logo-block">LOGO</div>
+        <div class="left-menu__nav-block nav-block">
+          <ul class="left-menu__links-ul links-ul">
+            <li class="left-menu__link">
+              <a class="left-menu__link-txt" href="./index.html">main</a>
+            </li>
+            <li class="left-menu__link">
+              <a class="left-menu__link-txt" href="./about.html">about</a>
+            </li>
+
+            <li class="left-menu__link"> <a class="left-menu__link-txt" href="./list.html">List</a></li>
+          </ul>
+        </div>
+
+        <div class="left-menu__content-part main__scroll" id="main-scroll" data-simplebar>
+          <p class=""></p>
+        </div>
+      </div>
+    </section>
+    <section class="right-block">
+      <div class="frame right-block__frame">
+        <h1 class="right-block__title main-title">List</h1>
+
+        <div class="right-block__list list">
+          <table class="list__table table">
+            <thead class="table__head">
+              <tr class="table__stroke">
+                <th class="table__cell table__cell--heading">id</th>
+                <th class="table__cell table__cell--heading">Имя</th>
+                <th class="table__cell table__cell--heading">Диапозон длин волн (мкм)</th>
+                <th class="table__cell table__cell--heading">?инфо</th>
+              </tr>
+              <tbody class="table__body">
+
+              </tbody>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <!-- ccылочка на гит  -->
+    </footer>
+
+    <script src="https://unpkg.com/simplebar@latest/dist/simplebar.min.js"></script>
+    <script src="scripts/script.js"></script>
+    <script src="scripts/list.js"></script>
+  </body>
+</html>

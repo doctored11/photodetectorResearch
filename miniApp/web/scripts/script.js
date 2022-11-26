@@ -77,7 +77,8 @@ function checkInputsEmpty(checkArray) {
         if (
           // молимся что порядок свойств не поменяется
           checkArray[n + 1].value == '' &&
-          checkArray[14].value == '' && checkArray[12].value == ''
+          checkArray[14].value == '' &&
+          checkArray[12].value == ''
         ) {
           checkArray[14].value == '' ? errorAr.push('df') : errorAr.push('fTop');
         }
@@ -152,4 +153,8 @@ function getResultsStep1(array) {
     p.textContent = array[i];
     outputBox.appendChild(p);
   }
+}
+eel.expose(getJson);
+function getJson(text) {
+  console.log(text);
 }
