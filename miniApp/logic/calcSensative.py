@@ -8,21 +8,22 @@ from logic.calcPhoto import text
 def calcSensative(id):
     for txt in text['info']:
         if (int(txt['id']) == id and (txt['type'] == "ФЭУ")):
-            if (txt['S-units'] == "А/лм"):
-                Sea = int((txt['Sva'])) * 16.6
-                print(Sea, (txt['S-units']), "!!!")  # предупреждение
+            if (txt['Sva-units'] == "мА/лм"):
+                Sea = int((txt['Sva']))/1000 * 16.6 #сначала перевод в Амперы
+                print(Sea, (txt['Sva-units']), "!!!")  # предупреждение
             else:
                 Sea = int((txt['Sva']))
-            return Sea
+            return float(Sea)
 
 
 def calcSeacht(k1, k2, Sea):
-    return Sea * (k1 / k2)
+    print(k1,k2,Sea)
+    return float(Sea) * ( float(k1) / float(k2))
 
 
 def calcMaxSensative(k, Sea):
     print("Sea = ", Sea, ";k= ", k)
-    return Sea / k
+    return float(Sea) / float(k)
 
 
 def SpectralSensitivityFPUToLaserRadiation(id, Smax):

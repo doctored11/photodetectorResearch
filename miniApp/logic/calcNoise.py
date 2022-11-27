@@ -75,4 +75,4 @@ def calcTemNoise(id, M):
             else:
                 sqITem = (4 * constant.k * float(
                     dictionary['df'][0]) * dictionary['Tf'][0]  ) / RnBottom #!подставил Тф, в методичке просто Т
-        return sqITem
+            return sqITem

@@ -13,6 +13,7 @@ from logic.calcInitial import *
 from logic.calcMath import PlankLow
 from logic.calcNoise import calcFeuNoise, calcRadNoise, calcDiodNoise, calcTemNoise
 from logic.calcPhoto import multiplyGraph
+from logic.calcPhotoDerector import calcPhotoDetector
 from logic.calcSensative import calcSensative, calcSeacht, calcMaxSensative, SpectralSensitivityFPUToLaserRadiation
 # from mpmath import mpf, mpc, mp
 eel.init("web")
@@ -105,46 +106,10 @@ def calculationOfGeneralParameters():
 
     #цифра 1 это id
 
-    def calcPhotoDetector(id):
-        kacht = multiplyGraph(id, distributionX1, distributionY1)[0]
-        ka =multiplyGraph(id, distributionX2, distributionY2)[0]
-
-        Sea = calcSensative(id)
-        Seacht = calcSeacht(kacht, ka, Sea)
-        Smax = calcMaxSensative(ka, Sea)
-        Selaz = SpectralSensitivityFPUToLaserRadiation(1,Smax)
-
-
-        # шумы для рахных типов разные --> это ФЭУ
-        sqIdr = calcFeuNoise(id, Sea, Seacht)[0]
-        sqIrad = calcRadNoise(id,Seacht)
-        sqITem =  calcTemNoise(id, calcFeuNoise(id, Sea, Seacht)[1])
-        #для теплового шума нужна Rн
-
-        #шумы для диодов
-        # sqIdr = calcDiodNoise(id, Seacht)
-        # sqIrad = calcRadNoise(id, Seacht)
-        # для теплового шума нужна Rб - брать 1кОм
-
-        #Шумы для резисторов
-        # sqIrad = calcRadNoise(id, Seacht)
-        # и прочее 
-
-
-        # print("id",id)
-        # print("ka", ka)
-        # print("kacht", kacht)
-        # print(kacht, ka, Sea)
-        # print(Seacht, "Seacht")
-        # print(Smax, "SeMAx")
-        # print(Selaz, "Selax")
-        # print("----")
-        # print(sqIdr,"sqIdr")
-        # print("Irad", sqIrad)
-        print("sqITem", sqITem)
 
     # plt.show()
     readyAr.append(
         '5-6) Построены нормированные графики спектральной плотности потока АЧТ и спектральной характеристики источника типа А')
     eel.getResultsStep1(readyAr);
-    calcPhotoDetector(0)
+
+    calcPhotoDetector(116,distributionX1, distributionX2, distributionY1, distributionY2) #тут только с 1 (0 не работает - вонючий питон()

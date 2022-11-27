@@ -38,12 +38,16 @@ def square(arrx,arry):
     return S
 
 
-def multiplyGraph(id, arrX1, arrY1,  ):
+def multiplyGraph(id, arrX1, arrY1):
 
     for txt in text['info']:
+
         if (int(txt['id']) == id):
+            print(txt['id'],id,'!!!!!!')
+            print(json.loads(txt['arrayX']))
             # print(len(json.loads(txt['arrayX'])))
             txtX = [i * math.pow(10, -9) for i in json.loads(txt['arrayX'])]
+            print(txtX)
 
             print('!-!')
             print(len(arrX1), len(txtX))
