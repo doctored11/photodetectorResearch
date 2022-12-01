@@ -38,7 +38,7 @@ def square(arrx,arry):
     return S
 
 
-def multiplyGraph(id, arrX1, arrY1):
+def multiplyGraph(id, arrX1, arrY1, view):
 
     for txt in text['info']:
 
@@ -66,9 +66,10 @@ def multiplyGraph(id, arrX1, arrY1):
             multiplyY1 = np.array(arrY1)
             multiplyX2 = np.array(txtX)
             multiplyY2 = np.array(txtY)
-            plt.clf()
-            plt.plot(txtX, txtY, '-g')
-            plt.plot(arrX1, arrY1, '-b')
+            if view == True:
+                plt.clf()
+                plt.plot(txtX, txtY, '-g')
+                plt.plot(arrX1, arrY1, '-b')
 
             xy1 = dict(zip(multiplyX1, multiplyY1))
             xy2 = dict(zip(multiplyX2, multiplyY2))
@@ -80,7 +81,8 @@ def multiplyGraph(id, arrX1, arrY1):
                     if (round(multiplyX1[x1], 9) == round(multiplyX2[x2], 9)):# внимание практически волшебная девятка ( тепень из нм в м)
                         multipluResultX.append(multiplyX1[x1])
                         multipluResultY.append(multiplyY1[x1]*multiplyY2[x2])
-            plt.plot(multipluResultX, multipluResultY, '-r')
+            if view == True:
+                plt.plot(multipluResultX, multipluResultY, '-r')
 
             # print(multipluResultX)
             # print(multipluResultY)

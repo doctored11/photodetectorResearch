@@ -6,8 +6,10 @@ import matplotlib.lines as mlines
 from mpmath import *
 import scipy.constants as constant
 
-numerator = 2 * math.pi * constant.h * math.pow(constant.c, 2)
+# from main import distrY1, distrX1, distrY2, distrX2
 
+numerator = 2 * math.pi * constant.h * math.pow(constant.c, 2)
+# distrY1, distrX1, distrY2, distrX2
 
 def PlankLow(T, maxlam, step, arrayX, arrayY, style , heading):
     lamPrev = 2

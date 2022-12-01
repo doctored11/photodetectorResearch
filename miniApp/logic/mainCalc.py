@@ -12,9 +12,10 @@ import scipy.constants as constant
 from logic.calcInitial import *
 from logic.calcMath import PlankLow
 from logic.calcNoise import calcFeuNoise, calcRadNoise, calcDiodNoise, calcTemNoise
-from logic.calcPhoto import multiplyGraph
-from logic.calcPhotoDerector import calcPhotoDetector
+from logic.calcPhoto import multiplyGraph, text
+from logic.calcPhotoDerector import calcPhotoDetector, autoCalc
 from logic.calcSensative import calcSensative, calcSeacht, calcMaxSensative, SpectralSensitivityFPUToLaserRadiation
+
 # from mpmath import mpf, mpc, mp
 eel.init("web")
 
@@ -24,7 +25,6 @@ mp.dps = 16  # 16 или 8  - не трогать!
 # из
 readyAr = []
 
-
 def calculationOfGeneralParameters():
     readyAr = [];
     Sin = math.pi * math.pow(dictionary['D'][0] / 2, 2)
@@ -32,7 +32,7 @@ def calculationOfGeneralParameters():
     for key, v in dictionary.items():
         if v[0] != 'none':
             v[0] *= conversion[v[1]]
-    print(dictionary)
+    # print(dictionary)
     readyAr.append('в СИ')
     # 1)
     if (dictionary['fBottom'][0] == 'none' and dictionary['fTop'][0] != 'none' and dictionary['df'][0] == 'none'):
@@ -44,7 +44,7 @@ def calculationOfGeneralParameters():
         if dictionary['tImp'][0] == 'none':
             readyAr.append("мало входных данных f ")
         else:
-            dictionary['fTop'][0] = 1/dictionary['tImp'][0]
+            dictionary['fTop'][0] = 1 / dictionary['tImp'][0]
 
     if dictionary['fBottom'][0] == 'none' and dictionary['df'][0] == 'none':
         dictionary['df'][0] = dictionary['fTop'][0]
@@ -52,7 +52,7 @@ def calculationOfGeneralParameters():
     if dictionary['df'][0] == 'none':
         dictionary['df'][0] = dictionary['fTop'][0] - dictionary['fBottom'][0]  # \кГц
 
-    print(dictionary['df'][0])
+    # print(dictionary['df'][0])
     readyAr.append('1) Полоса частот:' + str(dictionary['df'][0]))
 
     # 2)
@@ -95,6 +95,7 @@ def calculationOfGeneralParameters():
 
     # 5) - построить график где lamBuff это длина волны от 1 нм до +-2500 нм а Y  buffer = numerator/ denominator
     plt.clf()
+
     distributionY1, distributionX1, distributionY2, distributionX2 = [[], [], [], []]
     PlankLow(dictionary['Tf'][0], 20400000 / dictionary['Tf'][0], 20400000 / dictionary['Tf'][0] * math.pow(10, -3),
              distributionX1, distributionY1, "-r", 'Поток Fачт')  # лучше через color="#ff"
@@ -104,12 +105,28 @@ def calculationOfGeneralParameters():
     plt.savefig('web/sourse/savedFigure.png')
     eel.getFromPython('savedFigure.png', 'graph-img')
 
-    #цифра 1 это id
+    # getDists(distributionX1, distributionX2, distributionY1,
+    #          distributionY2)  # передача графика в main   -_-
 
+    # цифра 1 это id
 
     # plt.show()
     readyAr.append(
         '5-6) Построены нормированные графики спектральной плотности потока АЧТ и спектральной характеристики источника типа А')
     eel.getResultsStep1(readyAr);
 
-    calcPhotoDetector(116,distributionX1, distributionX2, distributionY1, distributionY2) #тут только с 1 (0 не работает - вонючий питон()
+    # автоподсчет ! - по клику на отдельную кнопку 
+    # resultList = autoCalc(distributionY1, distributionX1, distributionY2, distributionX2)  # авто подбор
+    # print("LIST!: \n", resultList)
+    #
+    # def listtodict(resultList, dic):
+    #     dic = dict(resultList)
+    #     return dic
+    #
+    # resultDict = {}
+    # streamList = listtodict(resultList, resultDict)
+    # streamListSorted = dict(sorted(streamList.items(), key=lambda item: item[1]))
+    # print(streamList, "\n", streamListSorted)
+
+    # ___---
+    return (distributionY1, distributionX1, distributionY2, distributionX2)

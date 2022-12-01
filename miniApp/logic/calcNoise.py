@@ -33,10 +33,21 @@ def convert(txt, index):
         ten = int(txt[index].split('|')[1])
         deg = int(txt[index].split('|')[2])
         It = float(It) * math.pow(ten, deg)
-    else:
-        It = mpf(txt[index])
+    elif (txt[index]!="-"):
+        It = float(txt[index])
 
     return It
+
+
+def getSq(txt, index):
+    if 'x' in txt[index]:
+        a = float(txt[index].split('x')[0])
+        b = float(txt[index].split('x')[1])
+        Sq = a * math.pow(10, -3) * b * math.pow(10, -3)  # площадь в метрах
+    else:
+        Sq = (float(txt[index]) * math.pow(10, -3)) ** 2 * constant.pi  # площадь в метрах
+
+    return Sq
 
 
 def calcRadNoise(id, Sacht):
@@ -49,9 +60,10 @@ def calcRadNoise(id, Sacht):
 # проверить
 def calcDiodNoise(id, Sacht):
     for txt in text['info']:
-        if (int(txt['id']) == id and (txt['type'] == "ФЭУ")):
+        if (int(txt['id']) == id and (txt['type'] == "Фотодиод")):
+
             It = convert(txt, 'It')
-            Svfk = convert(txt, 'Svfk')
+            # Svfk = convert(txt, 'Svfk')
             Iout = float(It) * Sacht * float(dictionary['Fefpr'][0])
             sqIdr = 2 * constant.e * float(Iout) * float(dictionary['df'][0])
 
@@ -71,8 +83,64 @@ def calcTemNoise(id, M):
             if ((0.8 * RnTop) > RnBottom):
                 print("принебрегаем Rn")  # предупреждение
                 sqITem = 4 * constant.k * float(
-                    dictionary['df'][0]) * dictionary['Tf'][0] #!подставил Тф, в методичке просто Т
+                    dictionary['df'][0]) * dictionary['Tf'][0]  # !подставил Тф, в методичке просто Т
             else:
                 sqITem = (4 * constant.k * float(
-                    dictionary['df'][0]) * dictionary['Tf'][0]  ) / RnBottom #!подставил Тф, в методичке просто Т
+                    dictionary['df'][0]) * dictionary['Tf'][0]) / RnBottom  # !подставил Тф, в методичке просто Т
             return sqITem
+
+
+def calcDiodTemNoise(id):
+    for txt in text['info']:
+        if (int(txt['id']) == id):
+            Rbase = 1000;
+            Tk = 300;
+            print('Rbase = ', Rbase, "Om\n", 'Tk = ', Tk)
+            sqITem = (4 * constant.k * float(
+                dictionary['df'][0]) * Tk) / Rbase
+            return sqITem
+
+
+def calcResistTemNoise(id):
+    for txt in text['info']:
+        if (int(txt['id']) == id):
+            Tk = 300;
+            Rt = convert(txt, 'Rt')
+            print('Tk = ', Tk)
+            sqITem = (4 * constant.k * float(
+                dictionary['df'][0]) * Tk) / Rt
+            return sqITem
+
+
+def calcCurrentNoise(id, Fefpr, Seacht):
+    for txt in text['info']:
+        if (int(txt['id']) == id):
+            B = math.pow(10, -11)
+            print("B = ", B)
+
+            print("Iout", txt['It'], Fefpr, Seacht)
+            Iout = (float(txt['It']) * math.pow(10, -6) + (float(Fefpr) * float(Seacht)))
+
+            sqIcur = (B * (Iout ** 2) * float(
+                dictionary['df'][0])) / float( dictionary['fTop'][0])
+            return sqIcur
+
+
+def cakcGenNoise(id, Fefpr, Seacht):
+    for txt in text['info']:
+        if (int(txt['id']) == id):
+            mu = math.pow(10, -7)  # в м
+            S = getSq(txt, 'Afcha')
+            print('!Внимание Мю берется очень приблизительно: ', mu , 'мˆ2/(В*с)')
+            G = txt['tc'] * (txt['Ur'] * mu) / (S ** 2)
+            Iout = (txt['It'] * math.pow(10, -6) + Fefpr * Seacht)
+            buffer = math.sqrt(1 + (2 * constant.pi * txt['tc'] * dictionary['dFtop'][0]) ** 2)
+            buffer = 1 / buffer
+            sqIgen = 4 * constant.e * Iout * G * buffer
+            return sqIgen
+
+
+def getSum(a, b, c=0, d=0, e=0):
+    print("sum")
+    print(a,b,c,d,e)
+    return float(a) + float(b) + float(c) + float(d) + float(e)

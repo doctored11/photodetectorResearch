@@ -37,3 +37,9 @@ conversion = {
     '-': 1,
 
 }
+D = {
+'distrX1': '',
+    'distrX2':'',
+    'distrY1':'',
+    'distrY2':'',
+}
