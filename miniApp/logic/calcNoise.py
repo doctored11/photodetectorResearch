@@ -11,14 +11,20 @@ from logic.calcPhoto import text
 def calcFeuNoise(id, Sa, Sacht):
     for txt in text['info']:
         if (int(txt['id']) == id and (txt['type'] == "ФЭУ")):
-            It = convert(txt, 'It')
-            Svfk = convert(txt, 'Svfk')
 
-            Iout = float(It) * Sacht * float(dictionary['Fefpr'][0])
+            Svfk = convert(txt, 'Svfk')
+            if (txt['Svfk-units'] == "мА/лм"):
+                Svfk = float(Svfk) / 1000 * 16.6  # с
+
+            It = convert(txt, 'It') * math.pow(10,-6)
+
+
+            Iout = float(It)  + float(dictionary['Fefpr'][0]) * Sacht
             # тут еще проверить единицы измерения
             M = Sa / Svfk
             sqIdr = 2 * constant.e * float(Iout) * M * 2.5 * float(dictionary['df'][0])
             print("!!!-!")
+            print(constant.e,float(It) )
             print(float(It), Sacht, float(dictionary['Fefpr'][0]))
             print(M, "M")  # в консоль
             print(M, Sa, Svfk)
@@ -52,6 +58,7 @@ def getSq(txt, index):
 
 def calcRadNoise(id, Sacht):
     print("k", constant.k)
+    print(dictionary['Tf'][0],float(dictionary['Fefpr'][0]),Sacht ** 2)
     Irad = 8 * constant.k * dictionary['Tf'][0] * float(dictionary['Fefpr'][0]) * (Sacht ** 2) * float(
         dictionary['df'][0])
     return Irad
@@ -62,7 +69,7 @@ def calcDiodNoise(id, Sacht):
     for txt in text['info']:
         if (int(txt['id']) == id and (txt['type'] == "Фотодиод")):
 
-            It = convert(txt, 'It')
+            It = convert(txt, 'It')* math.pow(10,-6)
             # Svfk = convert(txt, 'Svfk')
             Iout = float(It) * Sacht * float(dictionary['Fefpr'][0])
             sqIdr = 2 * constant.e * float(Iout) * float(dictionary['df'][0])
@@ -74,9 +81,12 @@ def calcDiodNoise(id, Sacht):
 def calcTemNoise(id, M):
     for txt in text['info']:
         if (int(txt['id']) == id):
+
+
+
             print("Cn = 20пФ")
             print("(B+1 =2.5)")
-            It = convert(txt, 'It')
+            It = convert(txt, 'It') * math.pow(10,-6)
             RnTop = 1 / (2 * constant.pi * 20 * math.pow(10, -12) * dictionary["fTop"][0])
             RnBottom = 0.005 / (It * M * 2.5)
             print("Rn", RnTop, RnBottom)
@@ -105,7 +115,7 @@ def calcResistTemNoise(id):
     for txt in text['info']:
         if (int(txt['id']) == id):
             Tk = 300;
-            Rt = convert(txt, 'Rt')
+            Rt = convert(txt, 'Rt') * math.pow(10,6) #проверить потом нужна ли степень мега
             print('Tk = ', Tk)
             sqITem = (4 * constant.k * float(
                 dictionary['df'][0]) * Tk) / Rt

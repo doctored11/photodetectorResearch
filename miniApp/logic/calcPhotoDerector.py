@@ -19,7 +19,7 @@ def calcPhotoDetector(id, distributionX1, distributionX2, distributionY1, distri
     Sea = calcSensative(id)
     Seacht = calcSeacht(kacht, ka, Sea)
     Smax = calcMaxSensative(ka, Sea)
-    Selaz = SpectralSensitivityFPUToLaserRadiation(1, Smax)
+    Selaz = SpectralSensitivityFPUToLaserRadiation(id, Smax)
     # if ( Selaz ==0 ): Selaz = math.pow(10,-9)
     type = "none"
     for txt in text['info']:
@@ -80,7 +80,7 @@ def calcPhotoDetector(id, distributionX1, distributionX2, distributionY1, distri
         ("kacht", str(kacht)),
         ("Seacht", str(Seacht)),
         ("SeMAx", str(Smax)),
-        ("Selax", str(Selaz)),
+        ("Selaz", str(Selaz)),
         ("sqIdr", str(sqIdr)),
         ("Irad", str(sqIrad)),
         ("sqITem", str(sqITem)),
