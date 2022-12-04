@@ -118,6 +118,9 @@ li {
   justify-content: space-around;
   margin-bottom: 4rem;
 }
+.choice {
+  position: relative;
+}
 .choice__card:not(:last-child) {
   margin-bottom: 2rem;
 }
@@ -311,6 +314,7 @@ tr:hover {
   border: 2px solid var(--main-gray);
   border-radius: var(--standert-rad);
   margin-bottom: 2rem;
+  position: relative;
 }
 .info__img {
   max-width: 65%;
@@ -399,4 +403,13 @@ div[class^='calc__block-'] > *::after {
 }
 .reserved {
   overflow: hidden;
+}
+
+.blocked {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #31313178;
 }

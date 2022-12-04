@@ -124,6 +124,7 @@ def thrioCalc(arr, distrX1, distrX2, distrY1, distrY2):
         # print("\n3 \n", distrX1, distrX2, distrY1, distrY2)
         if (dictionary['lam'][0] > minL and dictionary['lam'][0] < maxL):
             result = calcPhotoDetector(arr[i], distrX1, distrX2, distrY1, distrY2, True)[1]
-            eel.getCalcResult(arr[i], result)
-        else:
-            print("не подходит по спектру")
+        eel.getCalcResult(arr[i], result)
+    else:
+        print("не подходит по спектру")
+    eel.getUnblock()

@@ -13,6 +13,7 @@ for (let i = 0; i < inputs.length; ++i) {
 let calcBtn = document.getElementById('start-calc-btn');
 calcBtn.addEventListener('click', () => {
   clearAll();
+
   let arrayOfInputs = getInputValues();
   let errorsId = checkInputsEmpty(arrayOfInputs);
   console.log(errorsId);
@@ -22,6 +23,7 @@ calcBtn.addEventListener('click', () => {
       if (arrayOfInputs[13].value == '') arrayOfInputs[13].value = 2850;
 
       setToPython(arrayOfInputs);
+      unBlock('blocked-choice');
     } else {
       consoleLog(errorsId, 'error');
     }
@@ -189,6 +191,7 @@ function getGraph(picture, className, id) {
     p.textContent = propertyArr[i] + ' :  ' + list['info'][id - 1][propertyArr[i]];
     contentBlock.append(p);
   }
+  addAniLoad();
 }
 
 //
@@ -202,11 +205,14 @@ function getMultiplyGraph(picture, className, id) {
     calcCard = document.createElement('div');
     calcCard.classList.add('calc__card', 'calc-card', `calc-${id}`);
     calcBlock.append(calcCard);
+    addAniLoad();
   } else {
     calcCard = document.querySelector(`.calc-${id}`);
-    resultBlock = document.createElement('div');
-    resultBlock.classList.add(`calc__block-${id}`);
-    check = true;
+    if (!document.querySelector(`.calc__block-${id}`)) {
+      resultBlock = document.createElement('div');
+      resultBlock.classList.add(`calc__block-${id}`);
+      check = true;
+    }
   }
 
   let imgBlock = document.createElement('div');
@@ -222,6 +228,14 @@ function getMultiplyGraph(picture, className, id) {
   giveClickImg();
 }
 //
+
+eel.expose(getUnblock);
+function getUnblock() {
+  setTimeout(() => {
+    unBlock('active-ani');
+  }, 3500);
+}
+
 eel.expose(getCalcResult);
 function getCalcResult(id, resArr) {
   let resBlock = document.querySelector(`.calc__block-${id}`);
@@ -231,10 +245,12 @@ function getCalcResult(id, resArr) {
     p.textContent = resArr[i][0] + ' ' + resArr[i][1];
     resBlock.append(p);
   }
+
   giveClickImg();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  blockSelectSection();
   let btns = document.querySelectorAll('.btn');
   console.log('загрузка');
   for (let i = 0; i < btns.length; ++i) {
@@ -304,3 +320,98 @@ function zoomImg(url) {
     document.body.classList.remove('reserved');
   });
 }
+
+function blockSelectSection() {
+  let block = document.createElement('div');
+  block.classList.add('blocked', 'blocked-choice');
+
+  let section = document.querySelector('.choice');
+
+  section.append(block);
+}
+
+function unBlock(className) {
+  let forDel = document.querySelectorAll(`.${className}`);
+  for (let i = 0; i < forDel.length; ++i) {
+    forDel[i].remove();
+  }
+}
+
+function addAniLoad() {
+  let textArr = [
+    'Сейчас, уже рисую',
+    'Еще пара штрихов',
+    'Да груЖу я, гружу',
+    'Считаем...',
+    'Загрузка...',
+    'Загрузка...',
+    'Загрузка...',
+    'Ну да, ручки из попы и что?',
+    'Загрузка...',
+    'Грузим...',
+  ];
+  console.log('aniani');
+  function create() {
+    let aniBlock = document.createElement('div');
+    aniBlock.classList.add('ani-block');
+
+    let activeAni = document.createElement('div');
+    activeAni.classList.add('active-ani');
+    activeAni.append(aniBlock);
+
+    let pencil = document.createElement('div');
+    pencil.classList.add('pencil');
+    aniBlock.append(pencil);
+
+    let point = document.createElement('div');
+    point.classList.add('pencil__ball-point');
+    pencil.append(point);
+
+    let cap = document.createElement('div');
+    cap.classList.add('pencil__cap');
+    pencil.append(cap);
+
+    let base = document.createElement('div');
+    base.classList.add('pencil__cap-base');
+    pencil.append(base);
+
+    let mid = document.createElement('div');
+    mid.classList.add('pencil__middle');
+    pencil.append(mid);
+
+    let rub = document.createElement('div');
+    rub.classList.add('pencil__eraser');
+    pencil.append(rub);
+
+    let line = document.createElement('div');
+    line.classList.add('line');
+    aniBlock.append(line);
+
+    let text = document.createElement('h2');
+    text.classList.add('load-txt');
+    let rand = Math.floor(Math.random() * textArr.length);
+    console.log(rand);
+    text.textContent = textArr[rand];
+    aniBlock.append(text);
+
+    return activeAni;
+  }
+
+  let infCards = document.querySelectorAll('.info__card');
+  let calcCards = document.querySelectorAll('.calc__card');
+
+  for (let i = 0; i < infCards.length; ++i) {
+    if (!infCards[i].querySelector('.active-ani')) {
+      activeAni = create();
+      infCards[i].append(activeAni);
+    }
+  }
+  for (let i = 0; i < calcCards.length; ++i) {
+    if (!calcCards[i].querySelector('.active-ani')) {
+      activeAni = create();
+      calcCards[i].append(activeAni);
+    }
+  }
+}
+
+// unBlock('active-ani');
