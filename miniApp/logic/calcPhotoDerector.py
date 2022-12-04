@@ -1,15 +1,17 @@
 import math
 
+import eel
+
 from logic.calcInitial import dictionary
 from logic.calcNoise import calcFeuNoise, calcRadNoise, calcTemNoise, calcDiodNoise, calcDiodTemNoise, \
     calcResistTemNoise, calcCurrentNoise, getSum
-from logic.calcPhoto import multiplyGraph, text
+from logic.calcPhoto import multiplyGraph, text, printGraphVetector
 from logic.calcSensative import SpectralSensitivityFPUToLaserRadiation, calcMaxSensative, calcSeacht, calcSensative
 
 
 def calcPhotoDetector(id, distributionX1, distributionX2, distributionY1, distributionY2, view=True):
-    kacht = multiplyGraph(id, distributionX1, distributionY1, view)[0]
-    ka = multiplyGraph(id, distributionX2, distributionY2, view)[0]
+    kacht = multiplyGraph(id, distributionX1, distributionY1, view, 'ачт', '--r')[0]
+    ka = multiplyGraph(id, distributionX2, distributionY2, view, 'a', '--b')[0]
     if (kacht <= 0 or ka <= 0):
         print("приемник не подходит по спектру")
         return
@@ -29,6 +31,8 @@ def calcPhotoDetector(id, distributionX1, distributionX2, distributionY1, distri
         sqIdr = calcFeuNoise(id, Sea, Seacht)[0]
         sqIrad = calcRadNoise(id, Seacht)
         sqITem = calcTemNoise(id, calcFeuNoise(id, Sea, Seacht)[1])
+        sqIcur = '-'
+        sqIgen = '-'
         Sum = getSum(sqIdr, sqIrad, sqITem)
 
     # шумы для диодов
@@ -38,11 +42,14 @@ def calcPhotoDetector(id, distributionX1, distributionX2, distributionY1, distri
         sqITem = calcDiodTemNoise(id)
         # print("to Sum")
         # print(sqIrad, sqITem, sqIdr,id,Seacht)
+        sqIcur = '-'
+        sqIgen = '-'
         Sum = getSum(sqIrad, sqITem, sqIdr)
         # для теплового шума нужна Rб - брать 1кОм
 
     # Шумы для резисторов
     if (type == "Фоторезистор"):
+        sqIdr = '-'
         sqIrad = calcRadNoise(id, Seacht)
         sqITem = calcResistTemNoise(id)
         sqIcur = calcCurrentNoise(id, dictionary['Fefpr'][0], Seacht)
@@ -52,21 +59,41 @@ def calcPhotoDetector(id, distributionX1, distributionX2, distributionY1, distri
 
     Fpr = math.sqrt(Sum) / Selaz  # итоговая штука ( пороговый поток)
 
-    # print("ka", ka)
-    # print("kacht", kacht)
-    # print(kacht, ka, Sea)
-    # print(Seacht, "Seacht")
-    # print(Smax, "SeMAx")
-    # print(Selaz, "Selax")
-    # print("----")
-    # print(sqIdr, "sqIdr")
-    # print("Irad", sqIrad)
-    # print("sqITem", sqITem)
+    print("ka", ka)
+    print("----")
+    print("id", id)
+    print("kacht", kacht)
+    print(kacht, ka, Sea)
+    print(Seacht, "Seacht")
+    print(Smax, "SeMAx")
+    print(Selaz, "Selax")
+    print("----")
+    print(sqIdr, "sqIdr")
+    print("Irad", sqIrad)
+    print(sqIcur, 'sqIcur')
+    print(sqIgen, 'sqIgen')
+    print("sqITem", sqITem)
+
+    resultArr = [
+        ("id", str(id)),
+        ("ka", str(ka)),
+        ("kacht", str(kacht)),
+        ("Seacht", str(Seacht)),
+        ("SeMAx", str(Smax)),
+        ("Selax", str(Selaz)),
+        ("sqIdr", str(sqIdr)),
+        ("Irad", str(sqIrad)),
+        ("sqITem", str(sqITem)),
+        ('sqIcur', str(sqIcur)),
+        ('sqIgen', str(sqIgen)),
+        ("Fpr", str(Fpr))
+    ]
+
     print("----")
     print("id", id)
     print("Fpr: ", Fpr)
     print("----")
-    return (id, Fpr)
+    return (id, resultArr)
 
 
 def autoCalc(distributionY1, distributionX1, distributionY2, distributionX2):
@@ -87,6 +114,7 @@ def autoCalc(distributionY1, distributionX1, distributionY2, distributionX2):
 
 
 def thrioCalc(arr, distrX1, distrX2, distrY1, distrY2):
+    printGraphVetector(arr, '--g')
     for i in range(0, len(arr)):
         dLam = text['info'][arr[i] - 1]['d-lam']
         minL = float(dLam.split('-')[0]) * math.pow(10, -6)
@@ -95,5 +123,7 @@ def thrioCalc(arr, distrX1, distrX2, distrY1, distrY2):
         # print(arr[i], maxL, dictionary['lam'][0], dLam)
         # print("\n3 \n", distrX1, distrX2, distrY1, distrY2)
         if (dictionary['lam'][0] > minL and dictionary['lam'][0] < maxL):
-            result = calcPhotoDetector(arr[i], distrX1, distrX2, distrY1, distrY2, True)
-        else: print("не подходит по спектру")
+            result = calcPhotoDetector(arr[i], distrX1, distrX2, distrY1, distrY2, True)[1]
+            eel.getCalcResult(arr[i], result)
+        else:
+            print("не подходит по спектру")

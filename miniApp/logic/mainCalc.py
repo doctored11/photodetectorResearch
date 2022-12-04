@@ -15,6 +15,7 @@ from logic.calcNoise import calcFeuNoise, calcRadNoise, calcDiodNoise, calcTemNo
 from logic.calcPhoto import multiplyGraph, text
 from logic.calcPhotoDerector import calcPhotoDetector, autoCalc
 from logic.calcSensative import calcSensative, calcSeacht, calcMaxSensative, SpectralSensitivityFPUToLaserRadiation
+from logic.delit import dellAll
 
 # from mpmath import mpf, mpc, mp
 eel.init("web")
@@ -26,7 +27,8 @@ mp.dps = 16  # 16 или 8  - не трогать!
 readyAr = []
 
 def calculationOfGeneralParameters():
-    readyAr = [];
+    dellAll()
+    readyAr = []
     Sin = math.pi * math.pow(dictionary['D'][0] / 2, 2)
     if dictionary['k'][0] == 'none': dictionary['k'][0] = 1
     for key, v in dictionary.items():
@@ -101,6 +103,11 @@ def calculationOfGeneralParameters():
              distributionX1, distributionY1, "-r", 'Поток Fачт')  # лучше через color="#ff"
     PlankLow(dictionary['Ta'][0], 20400000 / dictionary['Tf'][0], 20400000 / dictionary['Tf'][0] * math.pow(10, -3),
              distributionX2, distributionY2, "--b", 'Поток Fа')
+
+    D['distrY1'] = distributionY1
+    D['distrX1'] = distributionX1
+    D['distrY2'] = distributionY2
+    D['distrX2'] = distributionX2
     plt.xlabel('λ')
     plt.savefig('web/sourse/savedFigure.png')
     eel.getFromPython('savedFigure.png', 'graph-img')

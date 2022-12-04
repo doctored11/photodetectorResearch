@@ -55,3 +55,10 @@
   transform: scale(110%);
   transition: scale 0;
 }
+img:hover {
+  transform: scale(110%);
+  transition: all cubic-bezier(0.165, 0.84, 0.44, 1) 0.4s 1.5s;
+  cursor: pointer;
+  outline: 2px solid var(--main-accent);
+  outline-offset: 0.5rem;
+}
