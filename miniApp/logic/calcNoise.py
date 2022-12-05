@@ -1,6 +1,7 @@
 import json
 import math
 
+import eel
 from mpmath import mpf
 import scipy.constants as constant
 
@@ -92,8 +93,11 @@ def calcTemNoise(id, M):
             print("Rn", RnTop, RnBottom)
             if ((0.8 * RnTop) > RnBottom):
                 print("принебрегаем Rn")  # предупреждение
-                sqITem = 4 * constant.k * float(
-                    dictionary['df'][0]) * dictionary['Tf'][0]  # !подставил Тф, в методичке просто Т
+                eel.consoleLog(["принебрегаем sqITem"], 'requer')
+                sqITem = 0;
+
+                # sqITem = 4 * constant.k * float(
+                #     dictionary['df'][0]) * dictionary['Tf'][0]  # !подставил Тф, в методичке просто Т
             else:
                 sqITem = (4 * constant.k * float(
                     dictionary['df'][0]) * dictionary['Tf'][0]) / RnBottom  # !подставил Тф, в методичке просто Т
@@ -105,7 +109,8 @@ def calcDiodTemNoise(id):
         if (int(txt['id']) == id):
             Rbase = 1000;
             Tk = 300;
-            print('Rbase = ', Rbase, "Om\n", 'Tk = ', Tk)
+            eel.consoleLog([f'{id}: Rbase ={Rbase}'], 'txt')
+            eel.consoleLog([f'{id}: Tk ={Tk}'], 'txt')
             sqITem = (4 * constant.k * float(
                 dictionary['df'][0]) * Tk) / Rbase
             return sqITem

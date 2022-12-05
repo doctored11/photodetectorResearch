@@ -1,6 +1,8 @@
 import json
 import math
 
+import eel
+
 from logic.calcInitial import dictionary
 from logic.calcNoise import convert
 from logic.calcPhoto import text
@@ -14,6 +16,7 @@ def calcSensative(id):
 
                 Sea = float(Sva) / 1000 * 16.6  # сначала перевод в Амперы
                 print(Sea, (txt['Sva-units']), "!!!")  # предупреждение
+                eel.consoleLog([f'{id}: Sea = {Sea} {txt["Sva-units"]}'],'requer' )
             else:
                 Sea = float((Sva))
             return float(Sea)
@@ -22,12 +25,15 @@ def calcSensative(id):
                 Sva = convert(txt, 'Sva')
                 Sea = float(Sva)
             else:
-                Icommon = convert(txt, 'Icommon')
-                It = convert(txt, 'It')
+                Icommon = convert(txt, 'Icommon') * math.pow(10,-6)
+                It = convert(txt, 'It') * math.pow(10,-6)
+                print('Sea')
+                print(Icommon,It,float(txt['E']),float(dictionary['D'][0]))
+
                 if (float(Icommon) == float(It)): Icommon = float(Icommon) + 0.1
                 Sea = (float(Icommon) - float(It)) / (
                             (float(txt['E'])) * (math.pi * math.pow(float(dictionary['D'][0]) / 2, 2)))
-
+                Sea= Sea* 16.6
             return float(Sea)
 
 
@@ -39,6 +45,7 @@ def calcSeacht(k1, k2, Sea):
 
 def calcMaxSensative(k, Sea):
     print("Sea = ", Sea, ";k= ", k)
+
     return float(Sea) / float(k)
 
 
@@ -64,7 +71,7 @@ def SpectralSensitivityFPUToLaserRadiation(id, Smax):
         # print("=")
         # print(round(arrX[x], 0), round(dictionary['lam'][0]*math.pow(10,9), 0) )
 
-    print('Slaz', Slaz) #вывести
+    eel.consoleLog([f'{id}: Slaz = {Slaz}'], 'txt')
     S = Smax * Slaz
     print('S', S)
     return S

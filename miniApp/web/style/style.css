@@ -100,6 +100,7 @@ li {
 .choice__card {
   width: 45%;
   padding: 2rem 1.2rem;
+  margin-bottom: 2rem;
 }
 .parametrs-parametr {
   padding: 0;
@@ -121,9 +122,7 @@ li {
 .choice {
   position: relative;
 }
-.choice__card:not(:last-child) {
-  margin-bottom: 2rem;
-}
+
 .small-descr {
   margin: 0;
   font-size: 14px;
@@ -149,6 +148,9 @@ li {
 }
 .requer {
   color: yellow;
+}
+.accent {
+  color: var(--main-accent);
 }
 .txt {
   color: gray;
@@ -412,4 +414,16 @@ div[class^='calc__block-'] > *::after {
   width: 100%;
   height: 100%;
   background-color: #31313178;
+}
+.choice__frame {
+  display: flex;
+  flex-wrap: wrap;
+}
+.choice__heading {
+  margin-right: 1rem;
+}
+.plus-btn {
+  width: inherit;
+  padding: 0.2em 0.5em 0.3em;
+  margin-bottom: 1.2rem;
 }

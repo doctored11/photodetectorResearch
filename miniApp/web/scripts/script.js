@@ -242,7 +242,13 @@ function getCalcResult(id, resArr) {
 
   for (let i = 0; i < resArr.length; ++i) {
     let p = document.createElement('p');
-    p.textContent = resArr[i][0] + ' ' + resArr[i][1];
+    if (resArr[i][1].includes('e')) {
+      let buff = resArr[i][1].split('e');
+      p.innerHTML =
+        resArr[i][0] + ' ' + buff[0] + '<span class="accent"> * 10^ </span>' + buff[1];
+    } else {
+      p.textContent = resArr[i][0] + ' ' + resArr[i][1];
+    }
     resBlock.append(p);
   }
 
@@ -251,6 +257,9 @@ function getCalcResult(id, resArr) {
 
 document.addEventListener('DOMContentLoaded', () => {
   blockSelectSection();
+  let plusBtn = document.querySelector('.plus-btn');
+  plusBtn.addEventListener('click', addInputCard);
+
   let btns = document.querySelectorAll('.btn');
   console.log('загрузка');
   for (let i = 0; i < btns.length; ++i) {
@@ -349,6 +358,8 @@ function addAniLoad() {
     'Ну да, ручки из попы и что?',
     'Загрузка...',
     'Грузим...',
+    'Сейчас сообразим',
+    'Подгоняю результаты)',
   ];
   console.log('aniani');
   function create() {
@@ -415,3 +426,10 @@ function addAniLoad() {
 }
 
 // unBlock('active-ani');
+
+function addInputCard() {
+  let ulCards = document.querySelector('.choice__choice-cards-list');
+  ulCards.innerHTML +=
+    '<li class="choice__card"><form action="#" id="form" autocomplete="off" class="choice__form"><div class="choice__select"><select name="select" id="select" class="choice__list"><option value="">фотоприемник</option><option value="2">Имя</option><option value="3">Имя</option><option value="4">Имя</option></select></div><div class="choice__parameters parameters"><p class="parametrs-parametr">Lorem ipsum dolor sit.</p></div></form></li>';
+  getJS();
+}

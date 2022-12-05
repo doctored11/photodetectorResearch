@@ -110,7 +110,15 @@ def multiplyGraph(id, arrX1, arrY1, view, labelName='-_-', style='--b'):
                 plt.clf()
                 buff = 'φ' + labelName
                 plt.plot(txtX, txtY, '--g', label='Sфпу')
-                plt.plot(arrX1, arrY1, style, label=buff)
+                maxX = txtX[len(txtX)-1]
+
+                bufArrX1=[]
+                for i in arrX1:
+                    if i > 1.6* maxX : break # магическая цифра - масштаб ( 1- образать графики ровно по приемнику)
+                    bufArrX1.append(i)
+                bufArrY1 = multiplyY1[0:len(bufArrX1)]
+
+                plt.plot(bufArrX1, bufArrY1, style, label=buff) #!!!!
 
             xy1 = dict(zip(multiplyX1, multiplyY1))
             xy2 = dict(zip(multiplyX2, multiplyY2))
@@ -129,8 +137,7 @@ def multiplyGraph(id, arrX1, arrY1, view, labelName='-_-', style='--b'):
                 plt.savefig(f'web/sourse/graphSum{id}{style}.png')
                 buf = f'graphSum{id}{style}.png'
                 eel.getMultiplyGraph(buf, 'graph-img', id)
-                # bufExcept = ['000001!']  # прикол
-                # eel.consoleLog(bufExcept, 'requer');
+
 
             # print(multipluResultX)
             # print(multipluResultY)
