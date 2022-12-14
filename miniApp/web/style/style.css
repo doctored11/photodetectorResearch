@@ -228,7 +228,7 @@ li {
   max-height: 25vh;
   width: inherit;
   width: 100%;
-  overflow: scroll;
+  /* overflow: scroll; */
 }
 
 .status-block__status {

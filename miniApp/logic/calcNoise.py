@@ -21,16 +21,14 @@ def calcFeuNoise(id, Sa, Sacht):
 
 
             Iout = float(It)  + float(dictionary['Fefpr'][0]) * Sacht
-            # тут еще проверить единицы измерения
+
             M = Sa / Svfk
             sqIdr = 2 * constant.e * float(Iout) * M * 2.5 * float(dictionary['df'][0])
             print("!!!-!")
             print(constant.e,float(It) )
             print(float(It), Sacht, float(dictionary['Fefpr'][0]))
-            print(M, "M")  # в консоль
-            print(M, Sa, Svfk)
+            eel.consoleLog([f'{id}: M = {M}'],'txt')
 
-            print(sqIdr, "!!!sqIdr")
             return [sqIdr, M]
 
 
@@ -75,7 +73,7 @@ def calcDiodNoise(id, Sacht):
             Iout = float(It) * Sacht * float(dictionary['Fefpr'][0])
             sqIdr = 2 * constant.e * float(Iout) * float(dictionary['df'][0])
 
-            print(sqIdr, "!!!sqIdr")
+
             return sqIdr
 
 
@@ -85,8 +83,8 @@ def calcTemNoise(id, M):
 
 
             eel.consoleLog()
-            print("Cn = 20пФ")
-            print("(B+1 =2.5)")
+            eel.consoleLog([f'{id} Cn = 20пФ'],'txt')
+            eel.consoleLog([f'{id} (B+1 =2.5)'],'txt')
             It = convert(txt, 'It') * math.pow(10,-6)
             RnTop = 1 / (2 * constant.pi * 20 * math.pow(10, -12) * dictionary["fTop"][0])
             RnBottom = 0.005 / (It * M * 2.5)
@@ -142,17 +140,19 @@ def calcCurrentNoise(id, Fefpr, Seacht):
             return sqIcur
 
 
-def cakcGenNoise(id, Fefpr, Seacht):
+def calcGenNoise(id, Fefpr, Seacht):
     for txt in text['info']:
         if (int(txt['id']) == id):
             mu = math.pow(10, -7)  # в м
-            S = getSq(txt, 'Afcha')
-            eel.consoleLog([f'!Внимание Мю берется очень приблизительно:  {mu} мˆ2/(В*с)'])
-            G = txt['tc'] * (txt['Ur'] * mu) / (S ** 2)
-            Iout = (txt['It'] * math.pow(10, -6) + Fefpr * Seacht)
-            buffer = math.sqrt(1 + (2 * constant.pi * txt['tc'] * dictionary['dFtop'][0]) ** 2)
+            S = float(getSq(txt, 'Afcha'))
+            eel.consoleLog([f'!Внимание Мю берется очень приблизительно:  {mu} мˆ2/(В*с)'],'requer')
+            G = float( txt['tc']) * (float(txt['Ur']) * mu) / (S ** 2)
+            Iout = (float(txt['It']) * math.pow(10, -6) + Fefpr * Seacht)
+            buffer = math.sqrt(1 + (2 * constant.pi * float( txt['tc']) * float(dictionary['fTop'][0])) ** 2)
+            if buffer == 0: buffer =1
             buffer = 1 / buffer
             sqIgen = 4 * constant.e * Iout * G * buffer
+
             return sqIgen
 
 

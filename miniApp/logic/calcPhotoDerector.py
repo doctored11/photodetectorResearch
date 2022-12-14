@@ -4,7 +4,7 @@ import eel
 
 from logic.calcInitial import dictionary
 from logic.calcNoise import calcFeuNoise, calcRadNoise, calcTemNoise, calcDiodNoise, calcDiodTemNoise, \
-    calcResistTemNoise, calcCurrentNoise, getSum
+    calcResistTemNoise, calcCurrentNoise, getSum, calcGenNoise
 from logic.calcPhoto import multiplyGraph, text, printGraphVetector
 from logic.calcSensative import SpectralSensitivityFPUToLaserRadiation, calcMaxSensative, calcSeacht, calcSensative
 
@@ -53,7 +53,7 @@ def calcPhotoDetector(id, distributionX1, distributionX2, distributionY1, distri
         sqIrad = calcRadNoise(id, Seacht)
         sqITem = calcResistTemNoise(id)
         sqIcur = calcCurrentNoise(id, dictionary['Fefpr'][0], Seacht)
-        sqIgen = calcCurrentNoise(id, dictionary['Fefpr'][0], Seacht)
+        sqIgen = calcGenNoise(id, dictionary['Fefpr'][0], Seacht)
         Sum = getSum(sqIrad, sqITem, sqIcur, sqIgen)
         # и прочее
 
@@ -124,8 +124,7 @@ def thrioCalc(arr, distrX1, distrX2, distrY1, distrY2):
                 result = calcPhotoDetector(arr[i], distrX1, distrX2, distrY1, distrY2, True)[1]
                 eel.getCalcResult(arr[i], result)
             except TypeError:
-                print(distrX1, distrX2, distrY1, distrY2)
-                eel.consoleLog([f'Что то пошло не так id: {arr[i]}'], 'txt')
+                eel.consoleLog([f'Что то пошло не так id: {arr[i]}'], 'error')
 
         else:
             print("не подходит по спектру")
