@@ -1,13 +1,15 @@
 import eel
+import numpy
 from mpmath import mpf
 # from numpy.distutils.fcompiler import none
 
 from logic.calcInitial import dictionary, D
-from logic.calcPhoto import text
-from logic.calcPhotoDerector import thrioCalc
+from logic.calcPhoto import text, listtodict
+from logic.calcPhotoDerector import thrioCalc, autoCalc
 # from logic.unifier import mathStart
 from logic.mainCalc import calculationOfGeneralParameters
-from logic.delit import  dellAll
+from logic.delit import dellAll
+import itertools
 eel.init("web")
 
 # ________________________
@@ -49,7 +51,6 @@ def callFromJstoPy(x):
         else:
             dictionary[list(jsInputArray[i].values())[0]][0] = 'none'
 
-
     mathStart()
     # print("2.3", D['distrX1'], D['distrX2'], D['distrY1'], D['distrY2'])
 
@@ -59,6 +60,34 @@ def getArray3toCalc(arr):
     # print("2.5", D['distrX1'], D['distrX2'], D['distrY1'], D['distrY2'])
     dellAll()
     thrioCalc(arr, D['distrX1'], D['distrX2'], D['distrY1'], D['distrY2'])
+
+
+@eel.expose
+def autoCalcAll():
+    di = {}
+    dellAll()
+    resultArr=[]
+    resultArr = autoCalc(D['distrX1'], D['distrX2'], D['distrY1'], D['distrY2'])
+    di =  listtodict(resultArr, di)
+    di = {int(k): float(v) for k, v in di.items()}
+    buffdict  = dict(sorted(di.items(), key=lambda item: item[1]))
+    shortDi = {}
+    if (len(buffdict) > 10):
+        for i in range(10):
+
+            shortDi = dict(itertools.islice(buffdict.items(), 10))
+    else:
+        shortDi = buffdict
+
+    finishArr =['автоподбор, id:',]
+    print(finishArr)
+    for i in shortDi.keys():
+        buff = 'id: '+ str(i)
+        finishArr.append(buff)
+
+    eel.clearAll()
+    # eel.consoleLog({'автоподбор, id:'}, 'succes')
+    eel.consoleLog(finishArr,'succes')
 
 
 # _________________________

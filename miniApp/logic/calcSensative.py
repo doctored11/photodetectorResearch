@@ -8,7 +8,7 @@ from logic.calcNoise import convert
 from logic.calcPhoto import text
 
 
-def calcSensative(id):
+def calcSensative(id,view):
     for txt in text['info']:
         if (int(txt['id']) == id and ((txt['type'] == "ФЭУ") or (txt['type'] == "Фотодиод"))):
             Sva = convert(txt, 'Sva')
@@ -16,7 +16,7 @@ def calcSensative(id):
 
                 Sea = float(Sva) / 1000 * 16.6  # сначала перевод в Амперы
                 print(Sea, (txt['Sva-units']), "!!!")  # предупреждение
-                eel.consoleLog([f'{id}: Sea = {Sea} {txt["Sva-units"]}'],'requer' )
+                if (view): eel.consoleLog([f'{id}: Sea = {Sea} {txt["Sva-units"]}'],'requer' )
             else:
                 Sea = float((Sva))
             return float(Sea)
@@ -49,7 +49,7 @@ def calcMaxSensative(k, Sea):
     return float(Sea) / float(k)
 
 
-def SpectralSensitivityFPUToLaserRadiation(id, Smax):
+def SpectralSensitivityFPUToLaserRadiation(id, Smax,view=True):
     arrX = []
     arrY = []
     for txt in text['info']:
@@ -71,7 +71,8 @@ def SpectralSensitivityFPUToLaserRadiation(id, Smax):
         # print("=")
         # print(round(arrX[x], 0), round(dictionary['lam'][0]*math.pow(10,9), 0) )
 
-    eel.consoleLog([f'{id}: Slaz = {Slaz}'], 'txt')
+    if (view):
+        eel.consoleLog([f'{id}: Slaz = {Slaz}'], 'txt')
     S = Smax * Slaz
     print('S', S)
     return S

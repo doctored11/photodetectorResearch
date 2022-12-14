@@ -84,15 +84,15 @@ def calcTemNoise(id, M):
         if (int(txt['id']) == id):
 
 
-
+            eel.consoleLog()
             print("Cn = 20пФ")
             print("(B+1 =2.5)")
             It = convert(txt, 'It') * math.pow(10,-6)
             RnTop = 1 / (2 * constant.pi * 20 * math.pow(10, -12) * dictionary["fTop"][0])
             RnBottom = 0.005 / (It * M * 2.5)
-            print("Rn", RnTop, RnBottom)
+
             if ((0.8 * RnTop) > RnBottom):
-                print("принебрегаем Rn")  # предупреждение
+
                 eel.consoleLog(["принебрегаем sqITem"], 'requer')
                 sqITem = 0;
 
@@ -104,13 +104,14 @@ def calcTemNoise(id, M):
             return sqITem
 
 
-def calcDiodTemNoise(id):
+def calcDiodTemNoise(id, view = True):
     for txt in text['info']:
         if (int(txt['id']) == id):
             Rbase = 1000;
             Tk = 300;
-            eel.consoleLog([f'{id}: Rbase ={Rbase}'], 'txt')
-            eel.consoleLog([f'{id}: Tk ={Tk}'], 'txt')
+            if (view):
+                eel.consoleLog([f'{id}: Rbase ={Rbase}'], 'txt')
+                eel.consoleLog([f'{id}: Tk ={Tk}'], 'txt')
             sqITem = (4 * constant.k * float(
                 dictionary['df'][0]) * Tk) / Rbase
             return sqITem
@@ -121,7 +122,7 @@ def calcResistTemNoise(id):
         if (int(txt['id']) == id):
             Tk = 300;
             Rt = convert(txt, 'Rt') * math.pow(10,6) #проверить потом нужна ли степень мега
-            print('Tk = ', Tk)
+
             sqITem = (4 * constant.k * float(
                 dictionary['df'][0]) * Tk) / Rt
             return sqITem
@@ -131,9 +132,9 @@ def calcCurrentNoise(id, Fefpr, Seacht):
     for txt in text['info']:
         if (int(txt['id']) == id):
             B = math.pow(10, -11)
-            print("B = ", B)
 
-            print("Iout", txt['It'], Fefpr, Seacht)
+
+
             Iout = (float(txt['It']) * math.pow(10, -6) + (float(Fefpr) * float(Seacht)))
 
             sqIcur = (B * (Iout ** 2) * float(
@@ -146,7 +147,7 @@ def cakcGenNoise(id, Fefpr, Seacht):
         if (int(txt['id']) == id):
             mu = math.pow(10, -7)  # в м
             S = getSq(txt, 'Afcha')
-            print('!Внимание Мю берется очень приблизительно: ', mu , 'мˆ2/(В*с)')
+            eel.consoleLog([f'!Внимание Мю берется очень приблизительно:  {mu} мˆ2/(В*с)'])
             G = txt['tc'] * (txt['Ur'] * mu) / (S ** 2)
             Iout = (txt['It'] * math.pow(10, -6) + Fefpr * Seacht)
             buffer = math.sqrt(1 + (2 * constant.pi * txt['tc'] * dictionary['dFtop'][0]) ** 2)
@@ -156,6 +157,5 @@ def cakcGenNoise(id, Fefpr, Seacht):
 
 
 def getSum(a, b, c=0, d=0, e=0):
-    print("sum")
-    print(a,b,c,d,e)
+
     return float(a) + float(b) + float(c) + float(d) + float(e)

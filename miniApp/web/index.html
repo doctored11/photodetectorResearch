@@ -32,14 +32,14 @@
         <div class="left-menu__nav-block nav-block">
           <ul class="left-menu__links-ul links-ul">
             <li class="left-menu__link">
-              <a class="left-menu__link-txt" href="./index.html">main</a>
+              <a class="left-menu__link-txt" href="./index.html">Калькулятор</a>
             </li>
             <li class="left-menu__link">
-              <a class="left-menu__link-txt" href="./about.html">about</a>
+              <a class="left-menu__link-txt" href="./about.html">Информация</a>
             </li>
 
             <li class="left-menu__link">
-              <a class="left-menu__link-txt" href="./list.html">Lorem.</a>
+              <a class="left-menu__link-txt" href="./list.html">Приемники</a>
             </li>
           </ul>
         </div>
@@ -51,7 +51,7 @@
     </section>
     <section class="right-block">
       <div class="frame right-block__frame">
-        <h1 class="right-block__title main-title">Lorem ipsum dolor sit amet.</h1>
+        <h1 class="right-block__title main-title">Выбор оптимального фотоприемника</h1>
       </div>
       <section class="right-block__input-section input-block second-section">
         <div class="frame">
@@ -246,8 +246,13 @@
       </section>
       <section class="choice second-section">
         <div class="frame choice__frame">
-          <h2 class="choice__heading section-heading">Выберите 3 фотоприемника</h2>
-          <button class="choice__btn-plus plus-btn btn">+</button>
+          <div class="choice__heading-block">
+            <h2 class="choice__heading section-heading">Выберите 3 фотоприемника</h2>
+            <div class="choice__btns btns-block">
+              <button class="choice__btn-plus plus-btn btn">+</button>
+              <button class="choice__btn-auto auto-btn btn">автоподбор</button>
+            </div>
+          </div>
           <div class="choice__choice-block">
             <ul class="choice__choice-cards-list">
               <li class="choice__card">
@@ -263,8 +268,6 @@
                   </div>
                   <div class="choice__parameters parameters">
                     <!-- выводить параметры выбраного приемника -->
-                    <p class="parametrs-parametr">Lorem ipsum dolor sit.</p>
-                    <p class="parametrs-parametr">Lorem ipsum dolor sit.</p>
                   </div>
                 </form>
               </li>
@@ -281,15 +284,6 @@
                   </div>
                   <div class="choice__parameters parameters">
                     <!-- выводить параметры выбраного приемника -->
-                    <p class="parametrs-parametr">Lorem ipsum dolor sit.</p>
-                    <p class="parametrs-parametr">Lorem ipsum dolor sit.</p>
-                    <p class="parametrs-parametr">Lorem ipsum dolor sit.</p>
-                    <p class="parametrs-parametr">Lorem ipsum dolor sit.</p>
-                    <p class="parametrs-parametr">Lorem ipsum dolor sit.</p>
-                    <p class="parametrs-parametr">Lorem ipsum dolor sit.</p>
-                    <p class="parametrs-parametr">Lorem ipsum dolor sit.</p>
-                    <p class="parametrs-parametr">Lorem ipsum dolor sit.</p>
-                    <p class="parametrs-parametr">Lorem ipsum dolor sit.</p>
                   </div>
                 </form>
               </li>
@@ -304,9 +298,7 @@
                       <option value="4">Имя</option>
                     </select>
                   </div>
-                  <div class="choice__parameters parameters">
-                    <p class="parametrs-parametr">Lorem ipsum dolor sit.</p>
-                  </div>
+                  <div class="choice__parameters parameters"></div>
                 </form>
               </li>
             </ul>

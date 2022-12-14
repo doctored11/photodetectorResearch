@@ -116,11 +116,13 @@ function consoleLog(array, className) {
     p.classList.add(className);
     className == 'error'
       ? (p.textContent = '!ошибка значения: ' + array[i])
-      : (p.textContent = array[i]);
+      : (p.textContent = '' + array[i]);
 
     consoleBlock.append(p);
   }
 }
+
+eel.expose(clearAll);
 function clearAll() {
   let simpleBarContent = document.querySelector('.simplebar-content');
 
@@ -131,7 +133,6 @@ function clearAll() {
   outputBl.innerHTML = '';
 }
 
-// python
 async function setToPython(x) {
   await eel.callFromJstoPy(x);
 }
@@ -259,6 +260,9 @@ document.addEventListener('DOMContentLoaded', () => {
   blockSelectSection();
   let plusBtn = document.querySelector('.plus-btn');
   plusBtn.addEventListener('click', addInputCard);
+
+  let autoBtn = document.querySelector('.auto-btn');
+  autoBtn.addEventListener('click', startAutoCalc);
 
   let btns = document.querySelectorAll('.btn');
   console.log('загрузка');
@@ -430,6 +434,10 @@ function addAniLoad() {
 function addInputCard() {
   let ulCards = document.querySelector('.choice__choice-cards-list');
   ulCards.innerHTML +=
-    '<li class="choice__card"><form action="#" id="form" autocomplete="off" class="choice__form"><div class="choice__select"><select name="select" id="select" class="choice__list"><option value="">фотоприемник</option><option value="2">Имя</option><option value="3">Имя</option><option value="4">Имя</option></select></div><div class="choice__parameters parameters"><p class="parametrs-parametr">Lorem ipsum dolor sit.</p></div></form></li>';
+    '<li class="choice__card"><form action="#" id="form" autocomplete="off" class="choice__form"><div class="choice__select"><select name="select" id="select" class="choice__list"><option value="">фотоприемник</option><option value="2">Имя</option><option value="3">Имя</option><option value="4">Имя</option></select></div><div class="choice__parameters parameters"></div></form></li>';
   getJS();
+}
+
+async function startAutoCalc() {
+  await eel.autoCalcAll();
 }

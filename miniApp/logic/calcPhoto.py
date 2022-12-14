@@ -25,10 +25,10 @@ with open('data/json-data/base.json', 'r', encoding='utf8') as file:
 def printGraphVetector(checkArray, style):  # для отображения 1график =1 холст
     for txt in text['info']:
         if int(txt['id']) in checkArray:
-            # print(txt['name_'])
+
             id = txt['id']
             plt.clf();
-            # print(json.loads(txt['arrayX']))
+
             plt.plot(json.loads(txt['arrayX']), json.loads(txt['arrayY']), style, label=txt['name_'])
             plt.legend(loc="upper left")
             plt.savefig(f'web/sourse/graphPhotoSolo{id}.png')
@@ -39,8 +39,7 @@ def printGraphVetector(checkArray, style):  # для отображения 1г�
 
 #             нужно будет сохранять с привязкой к id в имени
 
-# checkArray = [0, 1, 2]  # id тех что проверяем
-# printGraphВetector(checkArray, '-g')
+
 def square(arrx, arry):
     S = 0
     for step in range(len(arrx)):
@@ -50,57 +49,49 @@ def square(arrx, arry):
     return S
 
 
+def listtodict(resultList, dic):
+    dic = dict(resultList)
+
+    return dic
+
+
 def multiplyGraph(id, arrX1, arrY1, view, labelName='-_-', style='--b'):
     for txt in text['info']:
 
         if (int(txt['id']) == id):
 
-            print(txt['id'], id, '!!!!!!')
-            print(json.loads(txt['arrayX']))
-            # print(len(json.loads(txt['arrayX'])))
-            txtX = [i * math.pow(10, -9) for i in json.loads(txt['arrayX'])]
-            print(txtX)
 
-            print('!-!')
-            print(len(arrX1), len(txtX))
+
+            txtX = [i * math.pow(10, -9) for i in json.loads(txt['arrayX'])]
+
+
+
             txtY = json.loads(txt['arrayY'])
-            # if (len(arrX1) > len(txtX)):
-            #     arrX1 = arrX1[:len(txtX)]
-            #     arrY1 = arrY1[:len(txtX)]
-            # else:
-            #     txtX = txtX[:len(arrX1)]
-            #     txtY = txtY[:len(arrX1)]
 
 
             if (len(arrX1) > len(txtX)):
-                # buffer = arrX1[len(txtX):len(arrX1)]
-                # txtX = np.concatenate([txtX, buffer])
+
                 shortLengthTxt = len(txtX)
                 shortLengthArr = len(arrX1)
 
-                for x in range(len(txtX),len(arrX1)):
-                    txtX.append(txtX[x-1])
+                for x in range(len(txtX), len(arrX1)):
+                    txtX.append(txtX[x - 1])
 
                 while len(txtY) < len(txtX):
                     txtY.append(0)
 
 
-
-                print('#####')
             else:
                 shortLengthTxt = len(txtX)
                 shortLengthArr = len(arrX1)
 
-                for x in range(len(arrX1),len(txtX)):
-                    arrX1.append(arrX1[x-1])
+                for x in range(len(arrX1), len(txtX)):
+                    arrX1.append(arrX1[x - 1])
 
                 while len(arrY1) < len(arrX1):
                     arrY1.append(0)
 
 
-
-            print(len(arrX1), len(txtX))
-            print('!--!')
 
             multiplyX1 = np.array(arrX1)
             multiplyY1 = np.array(arrY1)
@@ -110,15 +101,15 @@ def multiplyGraph(id, arrX1, arrY1, view, labelName='-_-', style='--b'):
                 plt.clf()
                 buff = 'φ' + labelName
                 plt.plot(txtX, txtY, '--g', label='Sфпу')
-                maxX = txtX[len(txtX)-1]
+                maxX = txtX[len(txtX) - 1]
 
-                bufArrX1=[]
+                bufArrX1 = []
                 for i in arrX1:
-                    if i > 1.6* maxX : break # магическая цифра - масштаб ( 1- образать графики ровно по приемнику)
+                    if i > 1.6 * maxX: break  # магическая цифра - масштаб ( 1- образать графики ровно по приемнику)
                     bufArrX1.append(i)
                 bufArrY1 = multiplyY1[0:len(bufArrX1)]
 
-                plt.plot(bufArrX1, bufArrY1, style, label=buff) #!!!!
+                plt.plot(bufArrX1, bufArrY1, style, label=buff)  # !!!!
 
             xy1 = dict(zip(multiplyX1, multiplyY1))
             xy2 = dict(zip(multiplyX2, multiplyY2))
@@ -139,11 +130,8 @@ def multiplyGraph(id, arrX1, arrY1, view, labelName='-_-', style='--b'):
                 eel.getMultiplyGraph(buf, 'graph-img', id)
 
 
-            # print(multipluResultX)
-            # print(multipluResultY)
             Sq = square(multipluResultX, multipluResultY)
-            print("Sq", Sq)
-            print('show')
+
             plt.show()
 
             getArrX = multipluResultX

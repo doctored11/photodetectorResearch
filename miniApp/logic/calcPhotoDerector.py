@@ -16,10 +16,10 @@ def calcPhotoDetector(id, distributionX1, distributionX2, distributionY1, distri
         print("приемник не подходит по спектру")
         return
 
-    Sea = calcSensative(id)
+    Sea = calcSensative(id,view)
     Seacht = calcSeacht(kacht, ka, Sea)
     Smax = calcMaxSensative(ka, Sea)
-    Selaz = SpectralSensitivityFPUToLaserRadiation(id, Smax)
+    Selaz = SpectralSensitivityFPUToLaserRadiation(id, Smax,view)
     # if ( Selaz ==0 ): Selaz = math.pow(10,-9)
     type = "none"
     for txt in text['info']:
@@ -39,7 +39,7 @@ def calcPhotoDetector(id, distributionX1, distributionX2, distributionY1, distri
     if (type == "Фотодиод"):
         sqIdr = calcDiodNoise(id, Seacht)
         sqIrad = calcRadNoise(id, Seacht)
-        sqITem = calcDiodTemNoise(id)
+        sqITem = calcDiodTemNoise(id,view)
         # print("to Sum")
         # print(sqIrad, sqITem, sqIdr,id,Seacht)
         sqIcur = '-'
@@ -59,20 +59,7 @@ def calcPhotoDetector(id, distributionX1, distributionX2, distributionY1, distri
 
     Fpr = math.sqrt(Sum) / Selaz  # итоговая штука ( пороговый поток)
 
-    print("ka", ka)
-    print("----")
-    print("id", id)
-    print("kacht", kacht)
-    print(kacht, ka, Sea)
-    print(Seacht, "Seacht")
-    print(Smax, "SeMAx")
-    print(Selaz, "Selax")
-    print("----")
-    print(sqIdr, "sqIdr")
-    print("Irad", sqIrad)
-    print(sqIcur, 'sqIcur')
-    print(sqIgen, 'sqIgen')
-    print("sqITem", sqITem)
+
 
     resultArr = [
         ("id", str(id)),
@@ -89,27 +76,39 @@ def calcPhotoDetector(id, distributionX1, distributionX2, distributionY1, distri
         ("Fpr", str(Fpr))
     ]
 
-    print("----")
-    print("id", id)
-    print("Fpr: ", Fpr)
-    print("----")
+
     return (id, resultArr)
 
 
-def autoCalc(distributionY1, distributionX1, distributionY2, distributionX2):
+def autoCalc(distributionX1, distributionX2, distributionY1, distributionY2):
     resultArr = []
 
-    for i in range(1, len(text['info'])):
+    num = len(text['info'])
+    # num =22;
+    for i in range(1, num):
+
+        eel.clearAll()
+        eel.consoleLog([f'step {i}/{num}'],'txt')
+
         dLam = text['info'][i - 1]['d-lam']
         minL = float(dLam.split('-')[0]) * math.pow(10, -6)
         maxL = float(dLam.split('-')[1]) * math.pow(10, -6)
-        print(i, maxL, dictionary['lam'][0])
+
         if (dictionary['lam'][0] > minL and dictionary['lam'][0] < maxL):
-            print('id - ', i, dictionary['lam'][0])
-            result = calcPhotoDetector(i, distributionX1, distributionX2, distributionY1,
-                                       distributionY2, False)  # тут только с 1 (0 не работает - см id в Json
+
+            try:
+                result = calcPhotoDetector(i, distributionX1, distributionX2, distributionY1,
+                                           distributionY2, False)[1]  # тут только с 1 (0 не работает - см id в Json
+            except TypeError:
+
+                result = None
+                eel.consoleLog([f'Что то пошло не так id: {i}'], 'error')
+
             if (result != None):
-                resultArr.append(result)
+                resultArr.append((i, result[len(result) - 1][1]))
+
+
+
     return resultArr
 
 
@@ -119,12 +118,15 @@ def thrioCalc(arr, distrX1, distrX2, distrY1, distrY2):
         dLam = text['info'][arr[i] - 1]['d-lam']
         minL = float(dLam.split('-')[0]) * math.pow(10, -6)
         maxL = float(dLam.split('-')[1]) * math.pow(10, -6)
-        print('++++\n-----\n+++++\n_________\n---------')
-        # print(arr[i], maxL, dictionary['lam'][0], dLam)
-        # print("\n3 \n", distrX1, distrX2, distrY1, distrY2)
+
         if (dictionary['lam'][0] > minL and dictionary['lam'][0] < maxL):
-            result = calcPhotoDetector(arr[i], distrX1, distrX2, distrY1, distrY2, True)[1]
-            eel.getCalcResult(arr[i], result)
-    else:
-        print("не подходит по спектру")
+            try:
+                result = calcPhotoDetector(arr[i], distrX1, distrX2, distrY1, distrY2, True)[1]
+                eel.getCalcResult(arr[i], result)
+            except TypeError:
+                print(distrX1, distrX2, distrY1, distrY2)
+                eel.consoleLog([f'Что то пошло не так id: {arr[i]}'], 'txt')
+
+        else:
+            print("не подходит по спектру")
     eel.getUnblock()

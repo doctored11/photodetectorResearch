@@ -126,9 +126,7 @@ def calculationOfGeneralParameters():
     # resultList = autoCalc(distributionY1, distributionX1, distributionY2, distributionX2)  # авто подбор
     # print("LIST!: \n", resultList)
     #
-    # def listtodict(resultList, dic):
-    #     dic = dict(resultList)
-    #     return dic
+
     #
     # resultDict = {}
     # streamList = listtodict(resultList, resultDict)
