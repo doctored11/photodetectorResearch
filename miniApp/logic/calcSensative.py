@@ -56,9 +56,7 @@ def SpectralSensitivityFPUToLaserRadiation(id, Smax,view=True):
         if int(txt['id']) == id:
             arrX = json.loads(txt['arrayX'])
             arrY = json.loads(txt['arrayY'])
-    print(arrX)
-    print("lam")
-    print(dictionary['lam'][0] * math.pow(10, 9))
+
     Slaz = 0.55
     for x in range(len(arrX)):
         if x != 0:
@@ -68,11 +66,9 @@ def SpectralSensitivityFPUToLaserRadiation(id, Smax,view=True):
                 Slaz = arrY[x]
                 print('выбрал',arrY[x])
 
-        # print("=")
-        # print(round(arrX[x], 0), round(dictionary['lam'][0]*math.pow(10,9), 0) )
 
     if (view):
         eel.consoleLog([f'{id}: Slaz = {Slaz}'], 'txt')
     S = Smax * Slaz
-    print('S', S)
+
     return S

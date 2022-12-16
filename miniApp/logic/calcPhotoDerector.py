@@ -40,8 +40,7 @@ def calcPhotoDetector(id, distributionX1, distributionX2, distributionY1, distri
         sqIdr = calcDiodNoise(id, Seacht)
         sqIrad = calcRadNoise(id, Seacht)
         sqITem = calcDiodTemNoise(id,view)
-        # print("to Sum")
-        # print(sqIrad, sqITem, sqIdr,id,Seacht)
+
         sqIcur = '-'
         sqIgen = '-'
         Sum = getSum(sqIrad, sqITem, sqIdr)
@@ -55,7 +54,7 @@ def calcPhotoDetector(id, distributionX1, distributionX2, distributionY1, distri
         sqIcur = calcCurrentNoise(id, dictionary['Fefpr'][0], Seacht)
         sqIgen = calcGenNoise(id, dictionary['Fefpr'][0], Seacht)
         Sum = getSum(sqIrad, sqITem, sqIcur, sqIgen)
-        # и прочее
+
 
     Fpr = math.sqrt(Sum) / Selaz  # итоговая штука ( пороговый поток)
 

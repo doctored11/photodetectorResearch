@@ -24,9 +24,7 @@ def calcFeuNoise(id, Sa, Sacht):
 
             M = Sa / Svfk
             sqIdr = 2 * constant.e * float(Iout) * M * 2.5 * float(dictionary['df'][0])
-            print("!!!-!")
-            print(constant.e,float(It) )
-            print(float(It), Sacht, float(dictionary['Fefpr'][0]))
+
             eel.consoleLog([f'{id}: M = {M}'],'txt')
 
             return [sqIdr, M]
@@ -56,8 +54,7 @@ def getSq(txt, index):
 
 
 def calcRadNoise(id, Sacht):
-    print("k", constant.k)
-    print(dictionary['Tf'][0],float(dictionary['Fefpr'][0]),Sacht ** 2)
+
     Irad = 8 * constant.k * dictionary['Tf'][0] * float(dictionary['Fefpr'][0]) * (Sacht ** 2) * float(
         dictionary['df'][0])
     return Irad
