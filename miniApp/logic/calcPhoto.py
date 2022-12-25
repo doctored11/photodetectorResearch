@@ -29,7 +29,13 @@ def printGraphVetector(checkArray, style):  # для отображения 1г�
             id = txt['id']
             plt.clf();
 
-            plt.plot(json.loads(txt['arrayX']), json.loads(txt['arrayY']), style, label=txt['name_'])
+            plt.plot(json.loads(txt['arrayX']), json.loads(txt['arrayY']), style, label=txt['name_']) #label=txt['name_']
+            plt.grid(color = '#0c5900',    #  цвет линий #0c5900
+                        linewidth = 0.1)
+            # plt.grid()
+            # plt.xlabel("λ")
+            # plt.ylabel("S")
+
             plt.legend(loc="upper left")
             plt.savefig(f'web/sourse/graphPhotoSolo{id}.png')
             buf = f'graphPhotoSolo{id}.png'
@@ -100,7 +106,7 @@ def multiplyGraph(id, arrX1, arrY1, view, labelName='-_-', style='--b'):
             if view == True:
                 plt.clf()
                 buff = 'φ' + labelName
-                plt.plot(txtX, txtY, '--g', label='Sфпу')
+                plt.plot(txtX, txtY, '--g', label='Sфпу') #!!!- --g
                 maxX = txtX[len(txtX) - 1]
 
                 bufArrX1 = []
@@ -123,7 +129,7 @@ def multiplyGraph(id, arrX1, arrY1, view, labelName='-_-', style='--b'):
                         multipluResultX.append(multiplyX1[x1])
                         multipluResultY.append(multiplyY1[x1] * multiplyY2[x2])
             if view == True:
-                plt.plot(multipluResultX, multipluResultY, '-', color='orange', label='S*φ')
+                plt.plot(multipluResultX, multipluResultY, '-', color='orange', label='S*φ') #color orangr
                 plt.legend(loc="upper left")
                 plt.savefig(f'web/sourse/graphSum{id}{style}.png')
                 buf = f'graphSum{id}{style}.png'

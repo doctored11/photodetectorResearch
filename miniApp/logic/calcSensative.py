@@ -16,7 +16,7 @@ def calcSensative(id,view):
 
                 Sea = float(Sva) / 1000 * 16.6  # сначала перевод в Амперы
                 print(Sea, (txt['Sva-units']), "!!!")  # предупреждение
-                if (view): eel.consoleLog([f'{id}: Sea = {Sea} {txt["Sva-units"]}'],'requer' )
+                if (view): eel.consoleLog([f'{id}: Sea = {Sea} A/Вт'],'requer' )
             else:
                 Sea = float((Sva))
             return float(Sea)

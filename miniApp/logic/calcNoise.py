@@ -86,14 +86,16 @@ def calcTemNoise(id, M):
             RnTop = 1 / (2 * constant.pi * 20 * math.pow(10, -12) * dictionary["fTop"][0])
             RnBottom = 0.005 / (It * M * 2.5)
 
-            if ((0.8 * RnTop) > RnBottom):
+            if ( RnTop >= RnBottom):
 
-                eel.consoleLog(["принебрегаем sqITem"], 'requer')
+                eel.consoleLog(["принебрегаем sqITem", ("RnTop ="+ str(RnTop) ), (" >= RnBottom ="+ str(RnBottom))], 'requer')
+
                 sqITem = 0;
 
                 # sqITem = 4 * constant.k * float(
                 #     dictionary['df'][0]) * dictionary['Tf'][0]  # !подставил Тф, в методичке просто Т
             else:
+                eel.consoleLog([("RnTop ="+ str(RnTop)), (" < RnBottom =" + str(RnBottom))], 'requer')
                 sqITem = (4 * constant.k * float(
                     dictionary['df'][0]) * dictionary['Tf'][0]) / RnBottom  # !подставил Тф, в методичке просто Т
             return sqITem

@@ -26,6 +26,7 @@ mp.dps = 16  # 16 или 8  - не трогать!
 # из
 readyAr = []
 
+
 def calculationOfGeneralParameters():
     dellAll()
     readyAr = []
@@ -90,8 +91,9 @@ def calculationOfGeneralParameters():
     # ! если дано расстояние от приемника до лазера
     if dictionary['Rl'][0] != 'none':
         dictionary['Felpr'][0] = dictionary['Fel'][0] * \
-                                 (Sin * math.pow(math.tan(math.degrees(dictionary['dFi'][0])), 2)
-                                  / (math.pi * math.pow(dictionary['Rl'][0], 2))) * \
+                                 (Sin /
+                                  (math.pi * math.pow((dictionary['Rl'][0]) *
+                                   math.tan(dictionary['dFi'][0]/2), 2))) * \
                                  dictionary['k'][0]
         readyAr.append('4) поток от лазерного истчоника излучения на приемнике: ' + str(dictionary['Felpr'][0]))
 

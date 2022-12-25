@@ -112,7 +112,7 @@ def autoCalc(distributionX1, distributionX2, distributionY1, distributionY2):
 
 
 def thrioCalc(arr, distrX1, distrX2, distrY1, distrY2):
-    printGraphVetector(arr, '--g')
+    printGraphVetector(arr, '--g')#//--g
     for i in range(0, len(arr)):
         dLam = text['info'][arr[i] - 1]['d-lam']
         minL = float(dLam.split('-')[0]) * math.pow(10, -6)
